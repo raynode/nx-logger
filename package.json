@@ -14,7 +14,7 @@
     "meta-logging"
   ],
   "license": "ISC",
-  "main": "build/log.js",
+  "main": "dist/log.js",
   "name": "nx-logger",
   "repository": {
     "type": "git",
