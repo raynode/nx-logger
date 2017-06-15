@@ -21,7 +21,7 @@
     "url": "https://github.com/raynode/nx-logger"
   },
   "scripts": {
-    "build": "tsc ./lib/log.ts",
+    "build": "tsc",
     "prepare": "npm run build",
     "preupload": "npm version patch",
     "test": "echo \"Error: no test specified\" && exit 1",
