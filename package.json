@@ -7,7 +7,8 @@
     "build": "tsc ./lib/log.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "npm run build",
-    "publish": "npm version patch && npm publish"
+    "preupload": "npm version patch",
+    "upload": "npm publish"
   },
   "keywords": [],
   "author": "",
