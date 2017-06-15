@@ -25,6 +25,7 @@
     "build": "tsc",
     "prepare": "npm run build",
     "preupload": "npm version patch",
+    "postupload": "git push",
     "test": "echo \"Error: no test specified\" && exit 1",
     "upload": "npm publish"
   },
