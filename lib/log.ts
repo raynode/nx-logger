@@ -29,11 +29,15 @@ export namespace nxLogger {
   export interface Log {
     (message: Message): Result
     readonly configuration: Config
-    create?: FactoryFn
+    create: SimplyFactoryFn
+    on: (message: Message, callback: Function) => Function
   }
   export type FactoryFn = (configuration: ConfigPartial) => Log
-  export type FactoryCreatorFn = (configuration: Config) => FactoryFn
-  export type SimplyFactoryFn = (configuration: Config | Namespace) => Log
+  export type FactoryCreatorFn = (configuration: Config) => SimplyFactoryFn
+  export interface SimplyFactoryFn {
+    (configuration: Config): Log
+    (...namespace: Namespace): Log
+  }
   export type WriteFn = (configuration: Config) => (...messages: Message[]) => Result
   export type ConfigureFn = (options?: ConfigPartial) => Config
 
@@ -43,7 +47,7 @@ export namespace nxLogger {
 const baseConfiguration: nxLogger.Config = {
   enabled: true,
   namespace: [],
-  transport: () => null,
+  transport: (config, messages) => console.log(`${config.namespace.join(':')} - ${messages.join(' ')}`),
   tty: true,
 }
 
@@ -78,11 +82,12 @@ const logFactory: nxLogger.FactoryFn = configuration => {
 }
 
 const logFactoryCreator: nxLogger.FactoryCreatorFn = configuration =>
-  config => {
-    const configs = mergeConfigurations(configuration, typeof config === 'string' ? {
-      namespace: [config],
-    } : config)
+  (...namespace: any[]) => {
+    const config = namespace[0] as nxLogger.ConfigPartial
+    const configs = mergeConfigurations(configuration, typeof config === 'string' ? { namespace } : config)
     return logFactory(configs)
   }
 
 export const create = logFactory(baseConfiguration).create
+
+
