@@ -1,22 +1,29 @@
 {
-  "name": "nx-logger",
-  "version": "1.0.4",
-  "main": "build/log.js",
-  "types": "./types.d.ts",
-  "scripts": {
-    "build": "tsc ./lib/log.ts",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "npm run build",
-    "preupload": "npm version patch",
-    "upload": "npm publish"
-  },
-  "keywords": ["logging", "meta-logging"],
-  "author": "",
-  "license": "ISC",
+  "author": "Tobias Kopelke <nox@raynode.de>",
   "dependencies": {},
   "description": "",
   "devDependencies": {
     "@types/node": "^7.0.31",
     "typescript": "^2.3.4"
-  }
+  },
+  "files": [
+    "dist/*"
+  ],
+  "keywords": ["logging", "meta-logging"],
+  "license": "ISC",
+  "main": "build/log.js",
+  "name": "nx-logger",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/raynode/nx-logger"
+  },
+  "scripts": {
+    "build": "tsc ./lib/log.ts",
+    "prepare": "npm run build",
+    "preupload": "npm version patch",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "upload": "npm publish"
+  },
+  "types": "./types.d.ts",
+  "version": "1.0.4"
 }
