@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc ./lib/log.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "publish": "npm version patch && npm publish"
   },
   "keywords": [],
   "author": "",
