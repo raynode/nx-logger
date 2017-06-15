@@ -30,5 +30,5 @@
     "upload": "npm publish"
   },
   "types": "dist/log.d.ts",
-  "version": "1.0.9"
+  "version": "1.0.10"
 }
