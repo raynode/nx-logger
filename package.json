@@ -10,7 +10,7 @@
     "preupload": "npm version patch",
     "upload": "npm publish"
   },
-  "keywords": [],
+  "keywords": ["logging", "meta-logging"],
   "author": "",
   "license": "ISC",
   "dependencies": {},
