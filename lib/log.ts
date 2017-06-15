@@ -1,36 +1,23 @@
 
 import {
-  LogConfig,
-  LogConfigPartial,
-  LogConfigureFn,
-  LogFactoryCreatorFn,
-  LogFactoryFn,
-  LogFn,
-  LogMessage,
-  LogMessageObject,
-  LogMessageString,
-  LogNamespace,
-  LogResult,
-  LogSimplyFactoryFn,
-  LogTransportFn,
-  LogWriteFn,
+  nxLogger
 } from '../types'
 
 // Global LogConfig
-const baseConfiguration = {
+const baseConfiguration: nxLogger.Config = {
   enabled: true,
   namespace: [],
   transport: () => null,
   tty: true,
 }
 
-export const setConfiguration: LogConfigureFn = config => {
+export const configure: nxLogger.ConfigureFn = config => {
   Object.keys(config)
     .forEach(property => baseConfiguration[property] = config[property])
   return baseConfiguration
 }
 
-const mergeConfigurations = (base: LogConfig, extra: LogConfigPartial): LogConfig => {
+const mergeConfigurations = (base: nxLogger.Config, extra: nxLogger.ConfigPartial): nxLogger.Config => {
   const enabled = extra.hasOwnProperty('enabled') ? extra.enabled : base.enabled
   const namespace = [...base.namespace, ...(extra.namespace || [])]
   const transport = extra.transport || base.transport
@@ -43,18 +30,18 @@ const mergeConfigurations = (base: LogConfig, extra: LogConfigPartial): LogConfi
   }
 }
 
-const write: LogWriteFn = configuration => (...messages) => {
+const write: nxLogger.WriteFn = configuration => (...messages) => {
   return configuration.transport(configuration, messages)
 }
 
-const logFactory: LogFactoryFn = configuration => {
-  const log: any = write(configuration as LogConfig)
+const logFactory: nxLogger.FactoryFn = configuration => {
+  const log: any = write(configuration as nxLogger.Config)
   log.configuration = configuration
-  log.create = logFactoryCreator(configuration as LogConfig)
-  return log as LogFn
+  log.create = logFactoryCreator(configuration as nxLogger.Config)
+  return log as nxLogger.Log
 }
 
-const logFactoryCreator: LogFactoryCreatorFn = configuration =>
+const logFactoryCreator: nxLogger.FactoryCreatorFn = configuration =>
   config => {
     const configs = mergeConfigurations(configuration, typeof config === 'string' ? {
       namespace: [config],

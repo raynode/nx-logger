@@ -1,37 +1,43 @@
+export namespace nxLogger {
 
-// define atomic types
-export type LogResult = void
-export type LogNamespace = string[]
-export type LogMessageString = string
-export type LogMessageObject = string
-export type LogMessage = LogMessageString | LogMessageObject
+  // define atomic types
+  export type Result = void
+  export type Namespace = string[]
+  export type MessageString = string
+  export type MessageObject = string
+  export type Message = MessageString | MessageObject
 
-// define config type
-export interface LogConfigPartial {
-  enabled?: boolean
-  namespace?: LogNamespace
-  transport?: LogTransportFn
-  tty?: boolean
+  // define config type
+  export interface ConfigPartial {
+    enabled?: boolean
+    namespace?: Namespace
+    transport?: TransportFn
+    tty?: boolean
+  }
+
+  export interface Config extends ConfigPartial {
+    enabled: boolean
+    namespace: Namespace
+    transport: TransportFn
+    tty: boolean
+  }
+
+  // define transport
+  export type TransportFn = (configuration: Config, messages: Message[]) => Result
+
+  // define log function
+  export interface Log {
+    (message: Message): Result
+    readonly configuration: Config
+    create?: FactoryFn
+  }
+  export type FactoryFn = (configuration: ConfigPartial) => Log
+  export type FactoryCreatorFn = (configuration: Config) => FactoryFn
+  export type SimplyFactoryFn = (configuration: Config | Namespace) => Log
+  export type WriteFn = (configuration: Config) => (...messages: Message[]) => Result
+  export type ConfigureFn = (options?: ConfigPartial) => Config
+
 }
 
-export interface LogConfig extends LogConfigPartial {
-  enabled: boolean
-  namespace: LogNamespace
-  transport: LogTransportFn
-  tty: boolean
-}
-
-// define transport
-export type LogTransportFn = (configuration: LogConfig, messages: LogMessage[]) => LogResult
-
-// define log function
-export interface LogFn {
-  (message: LogMessage): LogResult
-  readonly configuration: LogConfig
-  create?: LogFactoryFn
-}
-export type LogFactoryFn = (configuration: LogConfigPartial) => LogFn
-export type LogFactoryCreatorFn = (configuration: LogConfig) => LogFactoryFn
-export type LogSimplyFactoryFn = (configuration: LogConfig | LogNamespace) => LogFn
-export type LogWriteFn = (configuration: LogConfig) => (message: LogMessage) => LogResult
-export type LogConfigureFn = (options?: LogConfigPartial) => LogConfig
+declare const configure: nxLogger.ConfigureFn
+declare const create: nxLogger.FactoryFn
