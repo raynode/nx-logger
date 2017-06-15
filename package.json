@@ -1,6 +1,6 @@
 {
   "name": "nx-logger",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "build/log.js",
   "types": "./types.d.ts",
   "scripts": {
