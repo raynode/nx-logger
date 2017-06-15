@@ -9,13 +9,16 @@
   "files": [
     "dist/*"
   ],
-  "keywords": ["logging", "meta-logging"],
+  "keywords": [
+    "logging",
+    "meta-logging"
+  ],
   "license": "ISC",
   "main": "build/log.js",
   "name": "nx-logger",
-  "repository" : {
-    "type" : "git",
-    "url" : "https://github.com/raynode/nx-logger"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/raynode/nx-logger"
   },
   "scripts": {
     "build": "tsc ./lib/log.ts",
@@ -25,5 +28,5 @@
     "upload": "npm publish"
   },
   "types": "./types.d.ts",
-  "version": "1.0.4"
+  "version": "1.0.5"
 }
