@@ -1,10 +1,23 @@
 {
   "author": "Tobias Kopelke <nox@raynode.de>",
-  "dependencies": {},
+  "dependencies": {
+    "cpx": "^1.5.0"
+  },
   "description": "",
   "devDependencies": {
+    "@types/faker": "^4.1.0",
+    "@types/mocha": "^2.2.41",
     "@types/node": "^7.0.31",
-    "typescript": "^2.3.4"
+    "@types/sinon": "^2.3.1",
+    "ava": "^0.19.1",
+    "faker": "^4.1.0",
+    "mocha": "^3.4.2",
+    "npm-scripts-info": "^0.3.6",
+    "sinon": "^2.3.4",
+    "ts-mocha": "^1.0.3",
+    "ts-node": "^3.0.6",
+    "typescript": "^2.3.4",
+    "unexpected": "^10.29.0"
   },
   "files": [
     "dist/*",
@@ -22,12 +35,28 @@
     "url": "https://github.com/raynode/nx-logger"
   },
   "scripts": {
-    "build": "tsc",
+    "info": "npm-scripts-info",
+    "build": "tsc -p tsconfig.build.json",
     "prepare": "npm run build",
     "preupload": "npm version patch",
     "postupload": "git push",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "ts-mocha -p tsconfig.json tests/*.spec.ts",
     "upload": "npm publish"
+  },
+  "scripts-info": {
+    "info": "Display information about the scripts",
+    "build": "(Trash and re)build the library",
+    "lint": "Lint all typescript source files",
+    "unit": "Build the library and run unit tests",
+    "test": "Lint, build, and test the library",
+    "watch": "Watch source files, rebuild library on changes, rerun relevant tests",
+    "cov": "Run tests, generate the HTML coverage report, and open it in a browser",
+    "docs": "Generate HTML API documentation and open it in a browser",
+    "docs:publish": "Generate HTML API documentation and push it to GitHub Pages",
+    "docs:json": "Generate API documentation in typedoc JSON format",
+    "changelog": "Bump package.json version, update CHANGELOG.md, tag a release",
+    "reset": "Delete all untracked files and reset the repo to the last commit",
+    "release": "Clean, build, test, publish docs, and prepare release (a one-step publish process)"
   },
   "types": "dist/log.d.ts",
   "version": "1.0.11"

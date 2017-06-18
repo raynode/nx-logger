@@ -1,6 +1,6 @@
 {
   "defaultSeverity": "error",
-  "extends": ["tslint:latest", "tslint-react"],
+  "extends": ["tslint:latest"],
   "jsRules": {},
   "rules": {
     // the server is allowed to use console.log, but is discuraged, use debug instead

@@ -1,3 +1,6 @@
+
+import * as util from 'util'
+
 export namespace nxLogger {
 
   // define atomic types
@@ -24,13 +27,20 @@ export namespace nxLogger {
 
   // define transport
   export type TransportFn = (configuration: Config, messages: Message[]) => Result
+  export type Formatter = (format: string, args: any[]) => string
+  export type Inspect = (object: any, options?: any) => string
+
+  // define handler
+  export type Handler = (message: Message, callback: Function) => Function
+  export type HandlerFactory = (log: Log) => Handler
 
   // define log function
   export interface Log {
-    (message: Message): Result
+    (message: any): Result
+    (message: Message, ...messages: any[]): Result
     readonly configuration: Config
     create: SimplyFactoryFn
-    on: (message: Message, callback: Function) => Function
+    on: Handler
   }
   export type FactoryFn = (configuration: ConfigPartial) => Log
   export type FactoryCreatorFn = (configuration: Config) => SimplyFactoryFn
@@ -43,11 +53,23 @@ export namespace nxLogger {
 
 }
 
+const formatter: nxLogger.Formatter = (format, args) => util.format(format, ...args)
+const inspect: nxLogger.Inspect = (object: any, options = {}) => typeof object === 'string' ?
+  object : util.inspect(object, options)
+
+const transport: nxLogger.TransportFn = (config, messages) => {
+  const namespace = config.namespace.join(':')
+  const [ format, ...args ] = messages
+  const message = messages.length > 1 ? formatter(format, args) : inspect(messages[0])
+
+  console.log(`${namespace} - ${message}`)
+}
+
 // Global LogConfig
 const baseConfiguration: nxLogger.Config = {
   enabled: true,
   namespace: [],
-  transport: (config, messages) => console.log(`${config.namespace.join(':')} - ${messages.join(' ')}`),
+  transport,
   tty: true,
 }
 
@@ -78,6 +100,7 @@ const logFactory: nxLogger.FactoryFn = configuration => {
   const log: any = write(configuration as nxLogger.Config)
   log.configuration = configuration
   log.create = logFactoryCreator(configuration as nxLogger.Config)
+  log.on = logHandlerFactory(log)
   return log as nxLogger.Log
 }
 
@@ -88,6 +111,11 @@ const logFactoryCreator: nxLogger.FactoryCreatorFn = configuration =>
     return logFactory(configs)
   }
 
+const logHandlerFactory: nxLogger.HandlerFactory = log =>
+  (message: nxLogger.Message, callback: Function) =>
+    (...args: any[]) => {
+      log(message, args)
+      return callback(...args)
+    }
+
 export const create = logFactory(baseConfiguration).create
-
-

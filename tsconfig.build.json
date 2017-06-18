@@ -22,8 +22,7 @@
     ]
   },
   "files": [
-    "lib/log.ts",
-    "tests/*.ts"
+    "lib/log.ts"
   ],
   "exclude": [
     "node_modules"
