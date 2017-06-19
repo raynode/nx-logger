@@ -1,34 +1,11 @@
 
 import * as util from 'util'
 import { create, configure } from '../lib/log'
-import * as sinon from 'sinon'
 import * as faker from 'faker'
 import * as expect from 'unexpected'
 import 'mocha'
 
-interface CaptureFn {
-  (message: any): void
-  called: number
-}
-
-const capture = (callback: (onLog: CaptureFn) => void) => {
-  const log = sinon.stub(console, 'log')
-  let err
-  const setFake: any = fn => {
-    setFake.called++
-    log.callsFake(fn)
-  }
-  setFake.called = 0
-
-  try {
-    callback(setFake)
-  } catch(e) {
-    err = e
-  }
-  log.restore()
-  if(err)
-    throw err
-}
+import { capture } from './utils'
 
 describe('::create', () => {
   it('should log a simple string', () => {
