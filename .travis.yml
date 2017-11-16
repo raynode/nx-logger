@@ -2,10 +2,6 @@ language: node_js
 cache:
   directories:
     - node_modules
-branches:
-  only:
-    - master
-    - /^greenkeeper/.*$/
 notifications:
   email: travisci+nx-logger@raynode.de
 node_js:
@@ -15,3 +11,6 @@ before_script:
   - npm prune
 after_success:
   - npm run semantic-release
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+$/
