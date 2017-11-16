@@ -8,6 +8,8 @@
     "@types/node": "^7.0.48",
     "@types/sinon": "^2.3.1",
     "ava": "^0.19.1",
+    "commitizen": "^2.9.6",
+    "cz-conventional-changelog": "^2.1.0",
     "faker": "^4.1.0",
     "jest": "^21.2.1",
     "mocha": "^3.4.2",
@@ -44,6 +46,9 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "semantic-release": "semantic-release pre && npm publish --access public && semantic-release post"
+  },
+  "czConfig": {
+    "path": "node_modules/cz-conventional-changelog"
   },
   "types": "dist/log.d.ts",
   "version": "0.0.0"
