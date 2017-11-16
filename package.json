@@ -4,23 +4,15 @@
   "description": "",
   "devDependencies": {
     "@types/faker": "^4.1.0",
-    "@types/mocha": "^2.2.41",
     "@types/node": "^7.0.48",
-    "@types/sinon": "^2.3.1",
-    "ava": "^0.19.1",
     "commitizen": "^2.9.6",
     "cz-conventional-changelog": "^2.1.0",
     "faker": "^4.1.0",
     "jest": "^21.2.1",
-    "mocha": "^3.4.2",
-    "npm-scripts-info": "^0.3.6",
     "semantic-release": "^8.2.0",
-    "sinon": "^2.3.4",
     "ts-jest": "^21.2.2",
-    "ts-mocha": "^1.0.3",
     "ts-node": "^3.0.6",
-    "typescript": "^2.3.4",
-    "unexpected": "^10.29.0"
+    "typescript": "^2.3.4"
   },
   "files": [
     "dist/*"
@@ -29,7 +21,7 @@
     "logging",
     "meta-logging"
   ],
-  "license": "ISC",
+  "license": "MIT",
   "main": "dist/log.js",
   "name": "@raynode/nx-logger",
   "repository": {
@@ -51,5 +43,11 @@
     "path": "node_modules/cz-conventional-changelog"
   },
   "types": "dist/log.d.ts",
-  "version": "0.0.0"
+  "version": "0.0.0",
+  "release": {
+    "verifyRelease": {
+      "path": "cracks",
+      "paths": ["__tests__", "package.json"]
+    }
+  }
 }
