@@ -1,0 +1,16 @@
+language: node_js
+cache:
+  directories:
+    - node_modules
+branches:
+  only:
+    - master
+notifications:
+  email: travisci+nx-logger@raynode.de
+node_js:
+  - '8'
+before_script:
+  - npm run build
+  - npm prune
+after_success:
+  - npm run semantic-release

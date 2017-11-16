@@ -1,31 +1,20 @@
 {
   "compilerOptions": {
-    "experimentalDecorators": true,
-    "lib": ["es6", "dom"],
-    "module": "commonjs",
-    "target": "es6",
-    "noImplicitAny": false,
-    "suppressImplicitAnyIndexErrors": true,
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "sourceMap": false,
     "declaration": true,
-    "outDir": "dist",
-    "removeComments": false,
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "types": [
-      "@types/node",
-      "@types/mocha",
-      "@types/sinon"
-    ]
+    "lib": ["es2016", "dom", "es7", "esnext"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noEmitOnError": true,
+    "noImplicitAny": true,
+    "outDir": "dist/",
+    "removeComments": true,
+    "rootDir": ".",
+    "sourceMap": true,
+    "target": "es5"
   },
-  "files": [
-    "lib/log.ts",
-    "tests/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
+  "include": [
+    "src/**/*.ts",
+    "__tests__/**/*.ts",
+    "node_modules/@types"
   ]
 }

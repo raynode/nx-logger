@@ -1,11 +1,11 @@
 
 import * as util from 'util'
-import { create, configure } from '../lib/log'
+import { create, configure } from './log'
 import * as faker from 'faker'
 import * as expect from 'unexpected'
 import 'mocha'
 
-import { capture } from './utils'
+import { capture } from '../test-utils'
 
 describe('::create', () => {
   it('should automatically log when a handled function is called', () => {

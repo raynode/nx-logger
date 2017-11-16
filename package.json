@@ -1,27 +1,27 @@
 {
   "author": "Tobias Kopelke <nox@raynode.de>",
-  "dependencies": {
-    "cpx": "^1.5.0"
-  },
+  "dependencies": {},
   "description": "",
   "devDependencies": {
     "@types/faker": "^4.1.0",
     "@types/mocha": "^2.2.41",
-    "@types/node": "^7.0.31",
+    "@types/node": "^7.0.48",
     "@types/sinon": "^2.3.1",
     "ava": "^0.19.1",
     "faker": "^4.1.0",
+    "jest": "^21.2.1",
     "mocha": "^3.4.2",
     "npm-scripts-info": "^0.3.6",
+    "semantic-release": "^8.2.0",
     "sinon": "^2.3.4",
+    "ts-jest": "^21.2.2",
     "ts-mocha": "^1.0.3",
     "ts-node": "^3.0.6",
     "typescript": "^2.3.4",
     "unexpected": "^10.29.0"
   },
   "files": [
-    "dist/*",
-    "types.d.ts"
+    "dist/*"
   ],
   "keywords": [
     "logging",
@@ -29,35 +29,22 @@
   ],
   "license": "ISC",
   "main": "dist/log.js",
-  "name": "nx-logger",
+  "name": "@raynode/nx-logger",
   "repository": {
     "type": "git",
     "url": "https://github.com/raynode/nx-logger"
   },
   "scripts": {
-    "info": "npm-scripts-info",
-    "build": "tsc -p tsconfig.build.json",
-    "prepare": "npm run build",
-    "preupload": "npm version patch",
-    "postupload": "git push",
-    "test": "ts-mocha -p tsconfig.json tests/*.spec.ts",
-    "upload": "npm publish"
-  },
-  "scripts-info": {
-    "info": "Display information about the scripts",
-    "build": "(Trash and re)build the library",
-    "lint": "Lint all typescript source files",
-    "unit": "Build the library and run unit tests",
-    "test": "Lint, build, and test the library",
-    "watch": "Watch source files, rebuild library on changes, rerun relevant tests",
-    "cov": "Run tests, generate the HTML coverage report, and open it in a browser",
-    "docs": "Generate HTML API documentation and open it in a browser",
-    "docs:publish": "Generate HTML API documentation and push it to GitHub Pages",
-    "docs:json": "Generate API documentation in typedoc JSON format",
-    "changelog": "Bump package.json version, update CHANGELOG.md, tag a release",
-    "reset": "Delete all untracked files and reset the repo to the last commit",
-    "release": "Clean, build, test, publish docs, and prepare release (a one-step publish process)"
+    "commit": "git-cz",
+    "lint": "tslint 'lib/**/*.ts'",
+    "lint:fix": "tslint --fix 'lib/**/*.ts'",
+    "build": "rm -rf dist && tsc -p tsconfig.release.json",
+    "test": "npm run test-only",
+    "test-only": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "semantic-release": "semantic-release pre && npm publish --access public && semantic-release post"
   },
   "types": "dist/log.d.ts",
-  "version": "1.0.13"
+  "version": "0.0.0"
 }
