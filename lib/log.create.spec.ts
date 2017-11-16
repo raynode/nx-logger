@@ -81,5 +81,23 @@ describe('::create', () => {
       done()
     })
   })
+
+  it('should create a new logger without any parameters', done => {
+    const fakes = {
+      logger: faker.lorem.word(),
+      message: faker.lorem.word(),
+    }
+    const log_source = create(fakes.logger)
+    const log = log_source.create()
+    capture( onLog => {
+      onLog((str: string) =>
+        expect(str).toEqual([fakes.logger, ' - ', fakes.message].join(''))
+      )
+      log(fakes.message)
+      expect(onLog.called).not.toBe(0)
+      expect(onLog.called).toBe(1)
+      done()
+    })
+  })
 })
 

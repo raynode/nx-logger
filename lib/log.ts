@@ -50,7 +50,6 @@ export namespace nxLogger {
   }
   export type WriteFn = (configuration: Config) => (...messages: Message[]) => Result
   export type ConfigureFn = (options?: ConfigPartial) => Config
-
 }
 
 const formatter: nxLogger.Formatter = (format, args) => util.format(format, ...args)
@@ -79,11 +78,11 @@ export const configure: nxLogger.ConfigureFn = config => {
   return baseConfiguration
 }
 
-const mergeConfigurations = (base: nxLogger.Config, extra: nxLogger.ConfigPartial): nxLogger.Config => {
-  const enabled = extra.hasOwnProperty('enabled') ? extra.enabled : base.enabled
-  const namespace = [...base.namespace, ...(extra.namespace || [])]
-  const transport = extra.transport || base.transport
-  const tty = extra.hasOwnProperty('tty') ? extra.tty : base.tty
+const mergeConfigurations = (base: nxLogger.Config, extra?: nxLogger.ConfigPartial): nxLogger.Config => {
+  const enabled = extra && extra.hasOwnProperty('enabled') ? extra.enabled : base.enabled
+  const namespace = [...base.namespace, ...(extra && extra.namespace || [])]
+  const transport = extra && extra.transport || base.transport
+  const tty = extra && extra.hasOwnProperty('tty') ? extra.tty : base.tty
   return {
     enabled,
     namespace,
