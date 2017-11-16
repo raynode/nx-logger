@@ -2,13 +2,11 @@
 import * as util from 'util'
 import { create, configure } from './log'
 import * as faker from 'faker'
-import * as expect from 'unexpected'
-import 'mocha'
 
 import { capture } from '../test-utils'
 
 describe('::create', () => {
-  it('should log a simple string', () => {
+  it('should log a simple string', done => {
     const fakes = {
       logger: faker.lorem.word(),
       message: faker.lorem.word(),
@@ -16,15 +14,16 @@ describe('::create', () => {
     const log = create(fakes.logger)
     capture( onLog => {
       onLog((str: string) =>
-        expect(str, 'to equal', [fakes.logger, ' - ', fakes.message].join(''))
+        expect(str).toEqual([fakes.logger, ' - ', fakes.message].join(''))
       )
       log(fakes.message)
-      expect(onLog.called, 'not to be', 0)
-      expect(onLog.called, 'to be', 1)
+      expect(onLog.called).not.toBe(0)
+      expect(onLog.called).toBe(1)
+      done()
     })
   })
 
-  it('should log multiple strings', () => {
+  it('should log multiple strings', done => {
     const fakes = {
       logger: faker.lorem.word(),
       messages: [1, 2, 3, 4].map(faker.lorem.word),
@@ -33,15 +32,16 @@ describe('::create', () => {
     capture( onLog => {
       const message = fakes.messages.join(' ')
       onLog((str: string) =>
-        expect(str, 'to equal', [fakes.logger, ' - ', message].join(''))
+        expect(str).toEqual([fakes.logger, ' - ', message].join(''))
       )
       const [format, ...messages] = fakes.messages
       log(format, ...messages)
-      expect(onLog.called, 'to be', 1)
+      expect(onLog.called).toBe(1)
+      done()
     })
   })
 
-  it('should log objects', () => {
+  it('should log objects', done => {
     const fakes = {
       logger: faker.lorem.word(),
       obj: {
@@ -52,14 +52,15 @@ describe('::create', () => {
     capture(onLog => {
       const message = util.inspect(fakes.obj)
       onLog((str: string) =>
-        expect(str, 'to equal', [fakes.logger, ' - ', message].join(''))
+        expect(str).toEqual([fakes.logger, ' - ', message].join(''))
       )
       log(fakes.obj)
-      expect(onLog.called, 'to be', 1)
+      expect(onLog.called).toBe(1)
+      done()
     })
   })
 
-  it('should format strings', () => {
+  it('should format strings', done => {
     const fakes = {
       logger: faker.lorem.word(),
       formatter: "message(%d, %s, %d)",
@@ -73,10 +74,11 @@ describe('::create', () => {
     capture(onLog => {
       const message = `message(${fakes.parts[0]}, ${fakes.parts[1]}, ${fakes.parts[2]})`
       onLog((str: string) =>
-        expect(str, 'to equal', [fakes.logger, ' - ', message].join(''))
+        expect(str).toEqual([fakes.logger, ' - ', message].join(''))
       )
       log(fakes.formatter, ...fakes.parts)
-      expect(onLog.called, 'to be', 1)
+      expect(onLog.called).toBe(1)
+      done()
     })
   })
 })
