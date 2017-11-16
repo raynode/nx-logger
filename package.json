@@ -42,7 +42,7 @@
     "test-only": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "semantic-release": "semantic-release pre && npm publish --access public && semantic-release post"
   },
   "czConfig": {
     "path": "node_modules/cz-conventional-changelog"
