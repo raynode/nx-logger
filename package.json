@@ -1,6 +1,10 @@
 {
   "author": "Tobias Kopelke <nox@raynode.de>",
-  "dependencies": {},
+  "dependencies": {
+    "@types/jest": "^21.1.6",
+    "@types/sinon": "^4.0.0",
+    "sinon": "^4.1.2"
+  },
   "description": "",
   "devDependencies": {
     "@types/faker": "^4.1.0",
@@ -47,7 +51,10 @@
   "release": {
     "verifyRelease": {
       "path": "cracks",
-      "paths": ["__tests__", "package.json"]
+      "paths": [
+        "__tests__",
+        "package.json"
+      ]
     }
   }
 }
