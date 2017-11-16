@@ -5,6 +5,7 @@ cache:
 branches:
   only:
     - master
+    - /^greenkeeper/.*$/
 notifications:
   email: travisci+nx-logger@raynode.de
 node_js:
