@@ -10,6 +10,7 @@
     "@types/faker": "^4.1.0",
     "@types/node": "^8.0.53",
     "commitizen": "^2.9.6",
+    "cracks": "^3.1.2",
     "cz-conventional-changelog": "^2.1.0",
     "faker": "^4.1.0",
     "jest": "^21.2.1",
