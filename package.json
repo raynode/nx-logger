@@ -7,7 +7,7 @@
   },
   "description": "",
   "devDependencies": {
-    "@types/faker": "^4.1.0",
+    "@types/faker": "^4.1.2",
     "@types/node": "^8.0.53",
     "commitizen": "^2.9.6",
     "cracks": "^3.1.2",
@@ -16,9 +16,9 @@
     "jest": "^21.2.1",
     "semantic-release": "^8.2.0",
     "sinon": "^4.1.2",
-    "ts-jest": "^21.2.2",
-    "ts-node": "^3.0.6",
-    "typescript": "^2.3.4"
+    "ts-jest": "^21.2.3",
+    "ts-node": "^3.3.0",
+    "typescript": "^2.6.1"
   },
   "files": [
     "dist/*"
