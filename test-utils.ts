@@ -1,9 +1,30 @@
 
+import { nxLogger } from './lib/log'
 import * as sinon from 'sinon'
 
 interface CaptureFn {
   (message: any): void
   called: number
+}
+
+interface DebugFn {
+  last: {
+    config: nxLogger.Config,
+    messages: nxLogger.Message[]
+    verbosity: number
+  }
+  called: number
+}
+
+export const debugTransport = (): nxLogger.TransportFn & DebugFn => {
+  const transport: any  = (config: nxLogger.Config, messages: nxLogger.Message[], verbosity) => {
+    transport.last = { config, messages, verbosity }
+    transport.called++
+  }
+  transport.last = { config: null, messages: [] }
+  transport.called = 0
+  transport.verbosity = -1
+  return transport
 }
 
 export const capture = (callback: (onLog: CaptureFn) => void) => {
