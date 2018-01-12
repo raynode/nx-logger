@@ -9,7 +9,7 @@
 
 # nx-logger
 
-NX-Logger is a meta logging utility to help transitioning from a small project into a bigger platform.
+nx-logger is a logging utility that grows with the application
 
 + [TypeScript][typescript] [2.6][typescript-26]
 + [Jest][jest] unit testing and code coverage
