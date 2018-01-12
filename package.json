@@ -58,7 +58,6 @@
     "verifyRelease": {
       "path": "cracks",
       "paths": [
-        "__tests__",
         "package.json"
       ]
     }
