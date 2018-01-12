@@ -108,7 +108,7 @@ const mergeConfigurations = (base: nxLogger.Config, extra?: nxLogger.ConfigParti
 }
 
 const write: nxLogger.WriteFn = (configuration, verbosity: number = nxLogger.LOG) => (...messages) =>
-  configuration.verbosity >= verbosity &&
+  verbosity <= configuration.verbosity &&
     configuration.transport(configuration, messages, verbosity)
 
 const logFactory: nxLogger.FactoryFn = (configuration: any) => {

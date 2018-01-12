@@ -24,6 +24,6 @@ module.exports = {
   testRegex: '/lib/.*\.spec\.[tj]sx?$',
   coverageDirectory: 'coverage',
   collectCoverageFrom: [
-    'src/**/*.{ts,tsx,js,jsx}'
+    'lib/**/*.{ts,tsx,js,jsx}'
   ],
 }

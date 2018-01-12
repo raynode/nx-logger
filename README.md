@@ -1,5 +1,6 @@
 [![Node.js version][nodejs-badge]][nodejs]
 [![NPM version][npm-badge]][npm]
+[![TypeScript][typescript-badge]][typescript-badge-url]
 [![tested with jest][jest-badge]][jest]
 [![build with travis-ci][travis-badge]][travis]
 [![semantic-release][semantic-release-badge]][semantic-release]
@@ -7,9 +8,15 @@
 
 # nx-logger
 
-This is a graphql server-ish module that enables you to run a graphql resolver anywhere. This is thought to be used in the browser as a first step to integrating graphql later in the production cycle.
+NX-Logger is a meta logging utility to help transitioning from a small project into a bigger platform.
 
-+ [TypeScript][typescript] [2.5][typescript-25] to ES6 transpilation
+## Installation
+
+```bash
+npm i @raynode/nx-logger
+```
+
++ [TypeScript][typescript] [2.6][typescript-26] to ES6 transpilation
 + [TSLint][tslint] 5.x
 + [Jest][jest] unit testing and code coverage
 + Type definitions for Node.js v6.x (LTS) and Jest
@@ -58,5 +65,7 @@ MIT
 [travis-badge]: https://travis-ci.org/raynode/nx-logger.svg?branch=master
 [travis]: https://travis-ci.org/raynode/nx-logger
 [tslint]: https://palantir.github.io/tslint/
-[typescript-25]: https://github.com/Microsoft/TypeScript/wiki/What's-new-in-TypeScript#typescript-25
+[typescript-26]: https://github.com/Microsoft/TypeScript/wiki/What's-new-in-TypeScript#typescript-26
 [typescript]: https://www.typescriptlang.org/
+[typescript-badge]: https://badges.frapsoft.com/typescript/code/typescript.svg?v=101
+[typescript-badge-url]: https://github.com/ellerbrock/typescript-badges/

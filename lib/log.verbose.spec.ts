@@ -40,6 +40,20 @@ describe('::verbose', () => {
     expect(transport.last.messages).toHaveLength(0)
   })
 
+  it('should not show log-level messages but error-level message when the verbosity is set to warn-level', () => {
+    const transport = debugTransport()
+    const log = create({ transport, verbosity: nxLogger.WARN })
+
+    const logMsg = 'log: ' + faker.random.word()
+    const errorMsg = 'error: ' + faker.random.word()
+
+    log.log(logMsg)
+    log.error(errorMsg)
+    expect(transport.called).toEqual(1)
+    expect(transport.last.messages).toHaveLength(1)
+    expect(transport.last.messages[0]).toEqual(errorMsg)
+  })
+
   it('should have correct basic settings for error', () => {
     const transport = debugTransport()
     const log = create({ transport, verbosity: nxLogger.ERROR })
