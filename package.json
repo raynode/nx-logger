@@ -40,7 +40,7 @@
     "lint": "tslint 'lib/**/*.ts'",
     "lint:fix": "tslint --fix 'lib/**/*.ts'",
     "build": "rm -rf dist && tsc -p tsconfig.release.json",
-    "test": "npm run test-only",
+    "test": "npm run test:coverage",
     "test-only": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
