@@ -45,7 +45,7 @@
     "test-only": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "semantic-release": "semantic-release && npm publish --access public",
+    "semantic-release": "semantic-release",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
   },
   "czConfig": {
