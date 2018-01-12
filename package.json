@@ -52,7 +52,7 @@
     "path": "node_modules/cz-conventional-changelog"
   },
   "types": "dist/log.d.ts",
-  "version": "0.0.0-development",
+  "version": "1.0.15",
   "release": {
     "verifyRelease": {
       "path": "cracks",
