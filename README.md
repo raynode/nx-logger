@@ -5,7 +5,7 @@
 [![build with travis-ci][travis-badge]][travis]
 [![tested with jest][jest-badge]][jest]
 [![Coverage Status](https://coveralls.io/repos/github/raynode/nx-logger/badge.svg?branch=master)](https://coveralls.io/github/raynode/nx-logger?branch=master)
-[![Current Version](https://badge.fury.io/js/nx-logger.svg)](https://badge.fury.io/js/nx-logger)
+[![npm version](https://badge.fury.io/js/%40raynode%2Fnx-logger.svg)](https://badge.fury.io/js/%40raynode%2Fnx-logger)
 
 # nx-logger
 
