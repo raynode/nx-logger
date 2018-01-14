@@ -3,7 +3,6 @@ import * as util from 'util'
 
 export const isString = (obj: any): obj is string => typeof obj === 'string'
 
-
 export namespace nxLogger {
 
   export const DEBUG = 10
@@ -69,12 +68,22 @@ const formatter: nxLogger.Formatter = (format, args) => util.format(format, ...a
 const inspect: nxLogger.Inspect = (object: any, options = {}) =>
   isString(object) ? object : util.inspect(object, options)
 
+const defaultLogger = {
+  [nxLogger.DEBUG]: console.debug,
+  [nxLogger.INFO]: console.info,
+  [nxLogger.LOG]: console.log,
+  [nxLogger.WARN]: console.warn,
+  [nxLogger.ERROR]: console.error,
+}
+
 const transport: nxLogger.TransportFn = (config, messages, verbosity) => {
   const namespace = config.namespace.join(':')
   const [ format, ...args ] = messages
   const message = messages.length > 1 ? formatter(format, args) : inspect(messages[0])
   const msg = namespace ? `${namespace} - ${message}` : `${message}`
-  console.log(msg)
+
+  const log = defaultLogger[verbosity] || defaultLogger[nxLogger.LOG]
+  log(msg)
 }
 
 // Global LogConfig
