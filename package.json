@@ -49,17 +49,22 @@
     "upload": "npm publish --access public",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
   },
-  "czConfig": {
-    "path": "node_modules/cz-conventional-changelog"
-  },
   "types": "dist/log.d.ts",
   "version": "1.1.2",
   "release": {
     "analyzeCommits": {
       "preset": "angular",
       "releaseRules": [
-        {"type": "chore", "release": "patch"}
+        {
+          "type": "chore",
+          "release": "patch"
+        }
       ]
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
     }
   }
 }
