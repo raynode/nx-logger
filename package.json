@@ -1,14 +1,13 @@
 {
   "author": "Tobias Kopelke <nox@raynode.de>",
   "dependencies": {
-    "@types/jest": "^22.0.0",
-    "@types/sinon": "^4.0.0",
-    "sinon": "^4.1.2"
+    "@types/jest": "^22.0.0"
   },
   "description": "Logging utility that grows with the application",
   "devDependencies": {
     "@types/faker": "^4.1.2",
     "@types/node": "^9.3.0",
+    "@types/sinon": "^4.0.0",
     "commitizen": "^2.9.6",
     "coveralls": "^3.0.0",
     "cracks": "^3.1.2",

@@ -6,6 +6,9 @@ notifications:
   email: travisci+nx-logger@raynode.de
 node_js:
   - '8'
+script:
+  - npm run test
+  - npm run build
 after_success:
   - npm run coveralls
   - npm run semantic-release
