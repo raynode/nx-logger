@@ -77,10 +77,14 @@ const defaultLogger = {
   [nxLogger.ERROR]: console.error,
 }
 
+export const formatMessage = (messages: nxLogger.Message[]): nxLogger.Message => {
+  const [ format, ...args ] = messages
+  return messages.length > 1 ? formatter(format, args) : inspect(messages[0])
+}
+
 const transport: nxLogger.TransportFn = (config, messages, verbosity) => {
   const namespace = config.namespace.join(':')
-  const [ format, ...args ] = messages
-  const message = messages.length > 1 ? formatter(format, args) : inspect(messages[0])
+  const message = formatMessage(messages)
   const msg = namespace ? `${namespace} - ${message}` : `${message}`
 
   const log = defaultLogger[verbosity] || defaultLogger[nxLogger.LOG]
