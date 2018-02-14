@@ -82,7 +82,7 @@ export const formatMessage = (messages: nxLogger.Message[]): nxLogger.Message =>
   return messages.length > 1 ? formatter(format, args) : inspect(messages[0])
 }
 
-const transport: nxLogger.TransportFn = (config, messages, verbosity) => {
+export const transport: nxLogger.TransportFn = (config, messages, verbosity) => {
   const namespace = config.namespace.join(':')
   const message = formatMessage(messages)
   const msg = namespace ? `${namespace} - ${message}` : `${message}`
