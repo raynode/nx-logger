@@ -31,15 +31,13 @@ export namespace nxLogger {
     verbosity: number
   }
 
-  export type ConfigPartial = Partial<Config>
-
   // define transport
   export type TransportFn = (configuration: Config, messages: Message[], verbosity: number) => Result
   export type Formatter = (format: string, args: any[]) => string
   export type Inspect = (object: any, options?: any) => string
 
   // define handler
-  export type Handler = <T>(message: Message, callback: T) => T
+  export type Handler = <T>(callback: T, namespace?: string, config?: Partial<Config>) => T
   export type HandlerFactory = (log: Log) => Handler
 
   // define log function
@@ -61,12 +59,15 @@ export namespace nxLogger {
     (...namespace: Namespace): Log
   }
   export type WriteFn = (configuration: Config, verbosity?: number) => LoggerFn
-  export type ConfigureFn = (options?: ConfigPartial) => Config
+  export type ConfigureFn = (options?: Partial<Config>) => Config
 }
 
 const formatter: nxLogger.Formatter = (format, args) => util.format(format, ...args)
-const inspect: nxLogger.Inspect = (object: any, options = {}) =>
-  isString(object) ? object : util.inspect(object, options)
+const inspect: nxLogger.Inspect = (object: any) =>
+  isString(object) ? object : util.inspect(object, {
+    depth: 2,
+    maxArrayLength: 5,
+  })
 
 const defaultLogger = {
   [nxLogger.DEBUG]: console.debug,
@@ -101,7 +102,7 @@ export const configure: nxLogger.ConfigureFn = config => {
   return baseConfiguration
 }
 
-const mergeConfigurations = (base: nxLogger.Config, extra?: nxLogger.ConfigPartial): nxLogger.Config => {
+const mergeConfigurations = (base: nxLogger.Config, extra?: Partial<nxLogger.Config>): nxLogger.Config => {
   const enabled = extra && extra.hasOwnProperty('enabled') ? extra.enabled : base.enabled
   const namespace = [...base.namespace, ...(extra && extra.namespace || [])]
   const transport = extra && extra.transport || base.transport
@@ -135,15 +136,21 @@ const logFactory: nxLogger.FactoryFn = (configuration: any) => {
 
 const logFactoryCreator: nxLogger.FactoryCreatorFn = configuration =>
   (...namespace: any[]) => {
-    const config = namespace[0] as nxLogger.ConfigPartial
+    const config = namespace[0] as Partial<nxLogger.Config>
     const configs = mergeConfigurations(configuration, isString(config) ? { namespace } : config)
     return logFactory(configs)
   }
 
-const logHandlerFactory: nxLogger.HandlerFactory = log =>
-  (message: nxLogger.Message, callback: any): any => (...args: any[]) => {
-    log(message, args)
-    return callback(...args)
+const logHandlerFactory: nxLogger.HandlerFactory = logger =>
+  (callback: any, namespace, config): any => {
+    const log = logger.create({
+      ...config,
+      ...namespace && { namespace: [namespace] }
+    })
+    return (...args: any[]) => {
+      log(args)
+      return callback(...args)
+    }
   }
 
 export const create = logFactory(baseConfiguration).create
