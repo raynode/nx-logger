@@ -19,7 +19,7 @@
     "semantic-release": "^12.4.1",
     "sinon": "^4.2.2",
     "ts-jest": "^22.0.3",
-    "ts-node": "^4.1.0",
+    "ts-node": "^5.0.0",
     "typescript": "^2.7.1"
   },
   "files": [
