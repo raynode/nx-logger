@@ -14,8 +14,6 @@ nx-logger is a logging utility that grows with the application
 + [TypeScript][typescript] [2.6][typescript-26]
 + [Jest][jest] unit testing and code coverage
 + Type definitions for Node.js v6.x (LTS) and Jest
-+ .editorconfig for consistent file format
-
 
 ## Installation
 
