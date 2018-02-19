@@ -8,6 +8,7 @@
     "@types/faker": "^4.1.2",
     "@types/node": "^9.4.1",
     "@types/sinon": "^4.1.3",
+    "codecov": "^3.0.0",
     "commitizen": "^2.9.6",
     "coveralls": "^3.0.0",
     "cracks": "^3.1.2",
@@ -46,7 +47,8 @@
     "test:coverage": "jest --coverage",
     "semantic-release": "semantic-release",
     "upload": "npm publish --access public",
-    "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+    "posttest": "codecov -f coverage/*.json"
   },
   "types": "dist/log.d.ts",
   "version": "1.1.2",
