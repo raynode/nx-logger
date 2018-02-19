@@ -1,0 +1,14 @@
+component_depth: 2
+languages:
+- typescript
+
+- name: typescript
+  production:
+    include:
+      - ./lib/**/*.{ts,tsx,js,jsx}
+    exclude:
+      - ./lib/**/*.spec.{ts,tsx,js,jsx}
+  test:
+    include:
+      - ./lib/**/*.{ts,tsx,js,jsx}
+      - ./lib/**/*.spec.{ts,tsx,js,jsx}
