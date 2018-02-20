@@ -6,6 +6,7 @@
 [![tested with jest][jest-badge]][jest]
 [![Coverage Status](https://coveralls.io/repos/github/raynode/nx-logger/badge.svg?branch=master)](https://coveralls.io/github/raynode/nx-logger?branch=master)
 [![npm version](https://badge.fury.io/js/%40raynode%2Fnx-logger.svg)](https://badge.fury.io/js/%40raynode%2Fnx-logger)
+[![BCH compliance](https://bettercodehub.com/edge/badge/raynode/nx-logger?branch=master)](https://bettercodehub.com/)
 
 # nx-logger
 
