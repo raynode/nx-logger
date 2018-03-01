@@ -8,6 +8,15 @@ import { debugTransport } from '../test-utils'
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 10
 
 describe('::verbose', () => {
+  let msg: string
+
+  beforeEach(() => msg = faker.random.word())
+
+  const createLog = (extra?: Partial<nxLogger.Config>) => {
+    const transport = debugTransport()
+    return { transport, log: create({ ...extra, transport }) }
+  }
+
   it('should have verbosity functions', () => {
     const log = create()
     expect(log).toHaveProperty('error')
@@ -18,10 +27,7 @@ describe('::verbose', () => {
   })
 
   it('should still send out the default log', () => {
-    const transport = debugTransport()
-    const log = create({ transport })
-
-    const msg = faker.random.word()
+    const { log, transport } = createLog()
 
     log(msg)
     expect(transport.called).toEqual(1)
@@ -30,10 +36,7 @@ describe('::verbose', () => {
   })
 
   it('should stop running the default log if the verbosity is set lower', () => {
-    const transport = debugTransport()
-    const log = create({ transport, verbosity: nxLogger.WARN })
-
-    const msg = faker.random.word()
+    const { log, transport } = createLog({ verbosity: nxLogger.WARN })
 
     log(msg)
     expect(transport.called).toEqual(0)
@@ -41,8 +44,7 @@ describe('::verbose', () => {
   })
 
   it('should not show log-level messages but error-level message when the verbosity is set to warn-level', () => {
-    const transport = debugTransport()
-    const log = create({ transport, verbosity: nxLogger.WARN })
+    const { log, transport } = createLog({ verbosity: nxLogger.WARN })
 
     const logMsg = 'log: ' + faker.random.word()
     const errorMsg = 'error: ' + faker.random.word()
@@ -55,54 +57,43 @@ describe('::verbose', () => {
   })
 
   it('should have correct basic settings for error', () => {
-    const transport = debugTransport()
-    const log = create({ transport, verbosity: nxLogger.ERROR })
-    const msg = faker.random.word()
+    const { log, transport } = createLog({ verbosity: nxLogger.ERROR })
+
     log.error(msg)
     expect(transport.called).toEqual(1)
     expect(transport.last.verbosity).toEqual(nxLogger.ERROR)
   })
 
   it('should have correct basic settings for warn', () => {
-    const transport = debugTransport()
-    const log = create({ transport, verbosity: nxLogger.WARN })
-    const msg = faker.random.word()
+    const { log, transport } = createLog({ verbosity: nxLogger.WARN })
     log.warn(msg)
     expect(transport.called).toEqual(1)
     expect(transport.last.verbosity).toEqual(nxLogger.WARN)
   })
 
   it('should have correct basic settings for log', () => {
-    const transport = debugTransport()
-    const log = create({ transport, verbosity: nxLogger.LOG })
-    const msg = faker.random.word()
+    const { log, transport } = createLog({ verbosity: nxLogger.LOG })
     log.log(msg)
     expect(transport.called).toEqual(1)
     expect(transport.last.verbosity).toEqual(nxLogger.LOG)
   })
 
   it('should have correct basic settings for default', () => {
-    const transport = debugTransport()
-    const log = create({ transport, verbosity: nxLogger.LOG })
-    const msg = faker.random.word()
+    const { log, transport } = createLog({ verbosity: nxLogger.LOG })
     log(msg)
     expect(transport.called).toEqual(1)
     expect(transport.last.verbosity).toEqual(nxLogger.LOG)
   })
 
   it('should have correct basic settings for info', () => {
-    const transport = debugTransport()
-    const log = create({ transport, verbosity: nxLogger.INFO })
-    const msg = faker.random.word()
+    const { log, transport } = createLog({ verbosity: nxLogger.INFO })
     log.info(msg)
     expect(transport.called).toEqual(1)
     expect(transport.last.verbosity).toEqual(nxLogger.INFO)
   })
 
   it('should have correct basic settings for debug', () => {
-    const transport = debugTransport()
-    const log = create({ transport, verbosity: nxLogger.DEBUG })
-    const msg = faker.random.word()
+    const { log, transport } = createLog({ verbosity: nxLogger.DEBUG })
     log.debug(msg)
     expect(transport.called).toEqual(1)
     expect(transport.last.verbosity).toEqual(nxLogger.DEBUG)
