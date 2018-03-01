@@ -2,12 +2,12 @@
 import { nxLogger } from './lib/log'
 import * as sinon from 'sinon'
 
-interface CaptureFn {
+export interface CaptureFn {
   (message: any): void
   called: number
 }
 
-interface DebugFn {
+export interface DebugFn {
   last: {
     config: nxLogger.Config,
     messages: nxLogger.Message[]

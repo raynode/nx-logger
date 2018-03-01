@@ -3,9 +3,14 @@ import * as util from 'util'
 import { create, configure } from './log'
 import * as faker from 'faker'
 
-import { capture } from '../test-utils'
+import { capture, CaptureFn } from '../test-utils'
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 50
+
+const expectOnLog = (onLog: CaptureFn, msg: string) =>
+  onLog((str: string) =>
+    expect(str).toEqual(msg)
+  )
 
 describe('::create', () => {
   it('should log a simple string', done => {
@@ -15,9 +20,7 @@ describe('::create', () => {
     }
     const log = create(fakes.logger)
     capture( onLog => {
-      onLog((str: string) =>
-        expect(str).toEqual([fakes.logger, ' - ', fakes.message].join(''))
-      )
+      expectOnLog(onLog, [fakes.logger, ' - ', fakes.message].join(''))
       log(fakes.message)
       expect(onLog.called).not.toBe(0)
       expect(onLog.called).toBe(1)
@@ -33,9 +36,7 @@ describe('::create', () => {
     const log = create(fakes.logger)
     capture( onLog => {
       const message = fakes.messages.join(' ')
-      onLog((str: string) =>
-        expect(str).toEqual([fakes.logger, ' - ', message].join(''))
-      )
+      expectOnLog(onLog, [fakes.logger, ' - ', message].join(''))
       const [format, ...messages] = fakes.messages
       log(format, ...messages)
       expect(onLog.called).toBe(1)
@@ -53,9 +54,7 @@ describe('::create', () => {
     const log = create(fakes.logger)
     capture(onLog => {
       const message = util.inspect(fakes.obj)
-      onLog((str: string) =>
-        expect(str).toEqual([fakes.logger, ' - ', message].join(''))
-      )
+      expectOnLog(onLog, [fakes.logger, ' - ', message].join(''))
       log(fakes.obj)
       expect(onLog.called).toBe(1)
       done()
@@ -75,9 +74,7 @@ describe('::create', () => {
     const log = create(fakes.logger)
     capture(onLog => {
       const message = `message(${fakes.parts[0]}, ${fakes.parts[1]}, ${fakes.parts[2]})`
-      onLog((str: string) =>
-        expect(str).toEqual([fakes.logger, ' - ', message].join(''))
-      )
+      expectOnLog(onLog, [fakes.logger, ' - ', message].join(''))
       log(fakes.formatter, ...fakes.parts)
       expect(onLog.called).toBe(1)
       done()
@@ -92,9 +89,7 @@ describe('::create', () => {
     const log_source = create(fakes.logger)
     const log = log_source.create()
     capture( onLog => {
-      onLog((str: string) =>
-        expect(str).toEqual([fakes.logger, ' - ', fakes.message].join(''))
-      )
+      expectOnLog(onLog, [fakes.logger, ' - ', fakes.message].join(''))
       log(fakes.message)
       expect(onLog.called).not.toBe(0)
       expect(onLog.called).toBe(1)
