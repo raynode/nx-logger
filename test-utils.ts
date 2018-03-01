@@ -1,18 +1,21 @@
 
-import { nxLogger } from './lib/log'
+// tslint:disable-next-line
 import * as sinon from 'sinon'
+import { nxLogger } from './lib/log'
 
 export interface CaptureFn {
   (message: any): void
   called: number
 }
 
+export interface LastEntry {
+  config: nxLogger.Config
+  messages: nxLogger.Message[]
+  verbosity: number
+}
+
 export interface DebugFn {
-  last: {
-    config: nxLogger.Config,
-    messages: nxLogger.Message[]
-    verbosity: number
-  }
+  last: LastEntry
   called: number
 }
 
