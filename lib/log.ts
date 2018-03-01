@@ -106,12 +106,24 @@ export const configure: nxLogger.ConfigureFn = config => {
   return baseConfiguration
 }
 
+export const selectProperty = <K extends keyof nxLogger.Config>(property: K) =>
+  (base: nxLogger.Config, extra: Partial<nxLogger.Config>) =>
+    extra && extra.hasOwnProperty(property) ? extra[property] : base[property]
+
+const selectEnabled = selectProperty('enabled')
+const selectTransport = selectProperty('transport')
+const selectTTY = selectProperty('tty')
+const selectVerbosity = selectProperty('verbosity')
+
+export const mergeNamespace = (base: nxLogger.Config, extra?: Partial<nxLogger.Config>) =>
+  [...base.namespace, ...(extra && extra.namespace || [])]
+
 const mergeConfigurations = (base: nxLogger.Config, extra?: Partial<nxLogger.Config>): nxLogger.Config => {
   const enabled = extra && extra.hasOwnProperty('enabled') ? extra.enabled : base.enabled
-  const namespace = [...base.namespace, ...(extra && extra.namespace || [])]
-  const transport = extra && extra.transport || base.transport
-  const tty = extra && extra.hasOwnProperty('tty') ? extra.tty : base.tty
-  const verbosity = extra && extra.hasOwnProperty('verbosity') ? extra.verbosity : base.verbosity
+  const namespace = mergeNamespace(base, extra)
+  const transport =  selectTransport(base, extra)
+  const tty = selectTTY(base, extra)
+  const verbosity = selectVerbosity(base, extra)
   return {
     enabled,
     namespace,
