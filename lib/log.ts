@@ -118,20 +118,13 @@ const selectVerbosity = selectProperty('verbosity')
 export const mergeNamespace = (base: nxLogger.Config, extra?: Partial<nxLogger.Config>) =>
   [...base.namespace, ...(extra && extra.namespace || [])]
 
-const mergeConfigurations = (base: nxLogger.Config, extra?: Partial<nxLogger.Config>): nxLogger.Config => {
-  const enabled = extra && extra.hasOwnProperty('enabled') ? extra.enabled : base.enabled
-  const namespace = mergeNamespace(base, extra)
-  const transport =  selectTransport(base, extra)
-  const tty = selectTTY(base, extra)
-  const verbosity = selectVerbosity(base, extra)
-  return {
-    enabled,
-    namespace,
-    transport,
-    tty,
-    verbosity,
-  }
-}
+const mergeConfigurations = (base: nxLogger.Config, extra?: Partial<nxLogger.Config>): nxLogger.Config => ({
+  enabled: selectEnabled(base, extra),
+  namespace: mergeNamespace(base, extra),
+  transport: selectTransport(base, extra),
+  tty: selectTTY(base, extra),
+  verbosity: selectVerbosity(base, extra),
+})
 
 const write: nxLogger.WriteFn = (configuration, verbosity: number = nxLogger.LOG) => (...messages) =>
   verbosity <= configuration.verbosity &&
@@ -161,7 +154,7 @@ const logHandlerFactory: nxLogger.HandlerFactory = logger =>
   (callback: any, namespace, config): any => {
     const log = logger.create({
       ...config,
-      ...namespace && { namespace: [namespace] }
+      ...namespace && { namespace: [namespace] },
     })
     return (...args: any[]) => {
       log(args)
