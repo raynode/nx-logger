@@ -5,7 +5,6 @@ module.exports = {
   },
   clearMocks: true,
   bail: true,
-  mapCoverage: true,
   modulePaths: [
     "src",
     "node_modules"
