@@ -11,14 +11,7 @@
     "sourceMap": false,
     "declaration": true,
     "outDir": "dist",
-    "removeComments": false,
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "types": [
-      "@types/node",
-      "@types/sinon"
-    ]
+    "removeComments": false
   },
   "files": [
     "lib/log.ts"
