@@ -14,8 +14,8 @@
     "faker": "^4.1.0",
     "jest": "^22.4.2",
     "jest-cli": "^22.4.2",
-    "semantic-release": "^12.4.1",
-    "sinon": "^4.4.2",
+    "semantic-release": "^15.0.0",
+    "sinon": "^5.0.0",
     "ts-jest": "^22.4.0",
     "ts-node": "^5.0.1",
     "typescript": "^2.7.2"
