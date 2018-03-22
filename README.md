@@ -7,6 +7,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/raynode/nx-logger/badge.svg?branch=master)](https://coveralls.io/github/raynode/nx-logger?branch=master)
 [![npm version](https://badge.fury.io/js/%40raynode%2Fnx-logger.svg)](https://badge.fury.io/js/%40raynode%2Fnx-logger)
 [![BCH compliance](https://bettercodehub.com/edge/badge/raynode/nx-logger?branch=master)](https://bettercodehub.com/)
+[![Maintainability](https://api.codeclimate.com/v1/badges/fff34fc1b31f6089213d/maintainability)](https://codeclimate.com/github/raynode/nx-logger/maintainability)
 
 # nx-logger
 
