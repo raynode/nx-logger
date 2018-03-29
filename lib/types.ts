@@ -25,11 +25,11 @@ export type TransportFn = (configuration: Config, messages: Message[], verbosity
 
 // define config type
 export interface Config {
-  enabled: boolean
-  namespace: Namespace
-  transport: TransportFn
-  tty: boolean
-  verbosity: number
+  readonly enabled: boolean
+  readonly namespace: Namespace
+  readonly transport: TransportFn
+  readonly tty: boolean
+  readonly verbosity: number
 }
 
 //
@@ -51,7 +51,13 @@ export interface Log extends LoggerFn {
   debug: LoggerFn
 }
 
+// simplified factory function which will be used by most people in code
 export interface SimpleFactoryFn {
   (configuration: Partial<Config>): Log
   (...namespace: Namespace): Log
 }
+
+// define Factory function types
+export type FactoryFn = (configuration: Config) => Log
+export type FactoryCreatorFn = (configuration: Config) => SimpleFactoryFn
+export type WriteFn = (configuration: Config, verbosity?: number) => LoggerFn

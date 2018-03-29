@@ -3,7 +3,7 @@
 import * as faker from 'faker'
 
 import * as util from 'util'
-import { configure, create } from './log.initial'
+import { configure, create } from './index'
 
 import { debugTransport } from '../test-utils'
 

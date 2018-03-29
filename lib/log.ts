@@ -4,11 +4,14 @@ import {
   formatter,
   inspect,
   isString,
+  mergeNamespace,
   selectProperty,
 } from './utils'
 
 import {
   Config,
+  FactoryCreatorFn,
+  FactoryFn,
   HandlerFactory,
   Log,
   LoggerFn,
@@ -16,11 +19,8 @@ import {
   Namespace,
   SimpleFactoryFn,
   TransportFn,
+  WriteFn,
 } from './types'
-
-export type FactoryFn = (configuration: Partial<Config>) => Log
-export type FactoryCreatorFn = (configuration: Config) => SimpleFactoryFn
-export type WriteFn = (configuration: Config, verbosity?: number) => LoggerFn
 
 export const defaultLoggers = {
   [LogLevel.DEBUG]: console.debug,
@@ -35,9 +35,6 @@ const selectTransport = selectProperty('transport')
 const selectTTY = selectProperty('tty')
 const selectVerbosity = selectProperty('verbosity')
 
-export const mergeNamespace = (base: Config, extra?: Partial<Config>) =>
-  [...base.namespace, ...(extra && extra.namespace || [])]
-
 const mergeConfigurations = (base: Config, extra?: Partial<Config>): Config => ({
   enabled: selectEnabled(base, extra),
   namespace: mergeNamespace(base, extra),
@@ -50,7 +47,7 @@ const write: WriteFn = (configuration, verbosity: number = LogLevel.LOG) => (...
   verbosity <= configuration.verbosity &&
     configuration.transport(configuration, messages, verbosity)
 
-export const logFactory: FactoryFn = (configuration: any) => {
+export const logFactory: FactoryFn = configuration => {
   const log: any = write(configuration)
   log.configuration = configuration
   log.create = logFactoryCreator(configuration)
@@ -64,7 +61,7 @@ export const logFactory: FactoryFn = (configuration: any) => {
 }
 
 const logFactoryCreator: FactoryCreatorFn = configuration =>
-  (...namespace: any[]) => {
+  (...namespace) => {
     const config = namespace[0] as Partial<Config>
     const configs = mergeConfigurations(configuration, isString(config) ? { namespace } : config)
     return logFactory(configs)
