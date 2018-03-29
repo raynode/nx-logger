@@ -24,4 +24,4 @@ module.exports = {
   collectCoverageFrom: [
     'lib/**/*.{ts,tsx,js,jsx}'
   ],
-};
+}
