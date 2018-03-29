@@ -1,16 +1,16 @@
 
-import * as util from 'util'
-import { create, configure } from './log'
+// tslint:disable-next-line
 import * as faker from 'faker'
+import * as util from 'util'
+
+import { create } from './log'
 
 import { capture, CaptureFn } from '../test-utils'
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 50
 
 const expectOnLog = (onLog: CaptureFn, msg: string) =>
-  onLog((str: string) =>
-    expect(str).toEqual(msg)
-  )
+  onLog((str: string) => expect(str).toEqual(msg))
 
 describe('::create', () => {
   it('should log a simple string', done => {
@@ -19,7 +19,7 @@ describe('::create', () => {
       message: faker.lorem.word(),
     }
     const log = create(fakes.logger)
-    capture( onLog => {
+    capture(onLog => {
       expectOnLog(onLog, [fakes.logger, ' - ', fakes.message].join(''))
       log(fakes.message)
       expect(onLog.called).not.toBe(0)
@@ -34,7 +34,7 @@ describe('::create', () => {
       messages: [1, 2, 3, 4].map(faker.lorem.word),
     }
     const log = create(fakes.logger)
-    capture( onLog => {
+    capture(onLog => {
       const message = fakes.messages.join(' ')
       expectOnLog(onLog, [fakes.logger, ' - ', message].join(''))
       const [format, ...messages] = fakes.messages
@@ -48,8 +48,8 @@ describe('::create', () => {
     const fakes = {
       logger: faker.lorem.word(),
       obj: {
-        test: faker.lorem.word()
-      }
+        test: faker.lorem.word(),
+      },
     }
     const log = create(fakes.logger)
     capture(onLog => {
@@ -63,13 +63,13 @@ describe('::create', () => {
 
   it('should format strings', done => {
     const fakes = {
+      formatter: 'message(%d, %s, %d)',
       logger: faker.lorem.word(),
-      formatter: "message(%d, %s, %d)",
-      parts: [1, 'test', 2]
+      parts: [1, 'test', 2],
     }
     const obj = {
       logger: faker.lorem.word(),
-      test: faker.lorem.word()
+      test: faker.lorem.word(),
     }
     const log = create(fakes.logger)
     capture(onLog => {
@@ -86,9 +86,9 @@ describe('::create', () => {
       logger: faker.lorem.word(),
       message: faker.lorem.word(),
     }
-    const log_source = create(fakes.logger)
-    const log = log_source.create()
-    capture( onLog => {
+    const logSource = create(fakes.logger)
+    const log = logSource.create()
+    capture(onLog => {
       expectOnLog(onLog, [fakes.logger, ' - ', fakes.message].join(''))
       log(fakes.message)
       expect(onLog.called).not.toBe(0)
@@ -100,7 +100,7 @@ describe('::create', () => {
   it('should send the message without a namespace when non is given', done => {
     const log = create()
     const msg = faker.random.word()
-    capture( onLog => {
+    capture(onLog => {
       onLog(str => {
         expect(str).toEqual(msg)
       })
@@ -115,7 +115,7 @@ describe('default transport', () => {
   it('should write to :log when the verbosity has no special console function', done => {
     const transport = create().configuration.transport
     const msg = faker.random.word()
-    capture( onLog => {
+    capture(onLog => {
       onLog(str => {
         expect(str).toEqual(msg)
       })

@@ -23,12 +23,41 @@ nx-logger is a logging utility that grows with the application
 npm i @raynode/nx-logger
 ```
 
+## Migrations
+
+As nxLogger namespace was removed, the access to the internals like interfaces or the log levels was changed.
+This will result in the following being invalid:
+```typescript
+import { nxLogger, create } from '@raynode/nx-logger'
+
+const log = create({ verbosity: nxLogger.DEBUG })
+```
+
+it will be like this now:
+```typescript
+import { LogLevel, create } from '@raynode/nx-logger'
+
+const log = create({ verbosity: LogLevel.DEBUG })
+```
+
+Further the `nxLogger` is not necessary any more to access the interfaces
+```typescript
+// before
+import { nxLogger } from '@raynode/nx-logger'
+type myLog = nxLogger.Log
+
+// after
+import { Log } from '@raynode/nx-logger'
+type myLog = Log
+// or
+import { Log as myLog } from '@raynode/nx-logger'
+```
 
 ## Usage
 
 Basic usage would just render some console output
 ```typescript
-import { create } from 'nx-logger'
+import { create } from '@raynode/nx-logger'
 
 const log = create('my-project')
 
@@ -45,8 +74,8 @@ console.log('my-project - start-up')
 As I love [Debug](https://github.com/visionmedia/debug) from visionmedia, there is already a transport to transform your logging.
 
 ```typescript
-import { create, configure } from 'nx-logger'
-import { transport } from 'nx-logger-debug'
+import { create, configure } from '@raynode/nx-logger'
+import { transport } from '@raynode/nx-logger-debug'
 
 configure({ transport })
 

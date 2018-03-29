@@ -1,7 +1,9 @@
 
-import * as util from 'util'
-import { nxLogger, create, configure } from './log'
+// tslint:disable-next-line
 import * as faker from 'faker'
+
+import * as util from 'util'
+import { configure, create } from './log'
 
 import { debugTransport } from '../test-utils'
 
@@ -25,11 +27,11 @@ describe('configure', () => {
     const namespace = [faker.random.word()]
     const tty = faker.random.boolean()
     configure({
-      transport,
       enabled,
-      verbosity,
       namespace,
+      transport,
       tty,
+      verbosity,
     })
     const log = create()
     expect(log.configuration.transport).toEqual(transport)
@@ -46,29 +48,28 @@ describe('configure', () => {
     const namespace = [faker.random.word()]
     const tty = faker.random.boolean()
     configure({
-      transport,
       enabled,
-      verbosity,
       namespace,
+      transport,
       tty,
+      verbosity,
     })
-    const x_transport = debugTransport()
-    const x_enabled = !enabled
-    const x_verbosity = 10 + faker.random.number({ min: 1, max: 10 })
-    const x_namespace = [faker.random.word()]
-    const x_tty = !tty
+    const nextTransport = debugTransport()
+    const nextEnabled = !enabled
+    const nextVerbosity = 10 + faker.random.number({ min: 1, max: 10 })
+    const nextNamespace = [faker.random.word()]
+    const nextTty = !tty
     const log = create({
-      transport: x_transport,
-      enabled: x_enabled,
-      verbosity: x_verbosity,
-      namespace: x_namespace,
-      tty: x_tty,
+      enabled: nextEnabled,
+      namespace: nextNamespace,
+      transport: nextTransport,
+      tty: nextTty,
+      verbosity: nextVerbosity,
     })
-    expect(log.configuration.transport).toEqual(x_transport)
-    expect(log.configuration.enabled).toEqual(x_enabled)
-    expect(log.configuration.verbosity).toEqual(x_verbosity)
-    expect(log.configuration.tty).toEqual(x_tty)
-    expect(log.configuration.namespace).toEqual([...namespace, ...x_namespace])
+    expect(log.configuration.transport).toEqual(nextTransport)
+    expect(log.configuration.enabled).toEqual(nextEnabled)
+    expect(log.configuration.verbosity).toEqual(nextVerbosity)
+    expect(log.configuration.tty).toEqual(nextTty)
+    expect(log.configuration.namespace).toEqual([...namespace, ...nextNamespace])
   })
 })
-

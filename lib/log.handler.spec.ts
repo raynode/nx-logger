@@ -1,7 +1,9 @@
 
-import * as util from 'util'
-import { create, configure } from './log'
+// tslint:disable-next-line
 import * as faker from 'faker'
+
+import * as util from 'util'
+import { create } from './log'
 
 import { debugTransport } from '../test-utils'
 
@@ -51,4 +53,3 @@ describe('::create', () => {
     expect(transport.last.config.namespace).toEqual(namespace)
   })
 })
-
