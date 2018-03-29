@@ -1,5 +1,5 @@
 
-import { LogLevel } from './types'
+import { LogLevel } from './types'
 
 export * from './log'
 export * from './log.initial'
