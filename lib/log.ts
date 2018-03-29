@@ -1,7 +1,17 @@
 
-import * as util from 'util'
+import {
+  formatMessage,
+  formatter,
+  inspect,
+  isString,
+  selectProperty,
+} from './utils'
 
-export const isString = (obj: any): obj is string => typeof obj === 'string'
+import {
+  Config,
+  LoggerFn,
+  TransportFn,
+} from './types'
 
 export enum LogLevel {
   DEBUG = 10,
@@ -16,31 +26,6 @@ export const INFO = LogLevel.INFO
 export const LOG = LogLevel.LOG
 export const WARN = LogLevel.WARN
 export const ERROR = LogLevel.ERROR
-
-// define atomic types
-export type Result = void
-export type Namespace = string[]
-export type MessageString = string
-export type MessageObject = string
-export type Message = MessageString | MessageObject
-export interface LoggerFn {
-  (message: any): Result
-  (message: Message, ...messages: any[]): Result
-}
-
-// define config type
-export interface Config {
-  enabled: boolean
-  namespace: Namespace
-  transport: TransportFn
-  tty: boolean
-  verbosity: number
-}
-
-// define transport
-export type TransportFn = (configuration: Config, messages: Message[], verbosity: number) => Result
-export type Formatter = (format: string, args: any[]) => string
-export type Inspect = (object: any, options?: any) => string
 
 // define handler
 export type Handler = <T>(callback: T, namespace?: string, config?: Partial<Config>) => T
@@ -67,14 +52,7 @@ export interface SimplyFactoryFn {
 export type WriteFn = (configuration: Config, verbosity?: number) => LoggerFn
 export type ConfigureFn = (options?: Partial<Config>) => Config
 
-const formatter: Formatter = (format, args) => util.format(format, ...args)
-const inspect: Inspect = (object: any) =>
-  isString(object) ? object : util.inspect(object, {
-    depth: 2,
-    maxArrayLength: 5,
-  })
-
-const defaultLogger = {
+export const defaultLoggers = {
   [DEBUG]: console.debug,
   [INFO]: console.info,
   [LOG]: console.log,
@@ -82,17 +60,12 @@ const defaultLogger = {
   [ERROR]: console.error,
 }
 
-export const formatMessage = (messages: Message[]): Message => {
-  const [ format, ...args ] = messages
-  return messages.length > 1 ? formatter(format, args) : inspect(messages[0])
-}
-
 export const transport: TransportFn = (config, messages, verbosity) => {
   const namespace = config.namespace.join(':')
   const message = formatMessage(messages)
   const msg = namespace ? `${namespace} - ${message}` : `${message}`
 
-  const log = defaultLogger[verbosity] || defaultLogger[LOG]
+  const log = defaultLoggers[verbosity] || defaultLoggers[LOG]
   log(msg)
 }
 
@@ -110,10 +83,6 @@ export const configure: ConfigureFn = config => {
     .forEach(property => baseConfiguration[property] = config[property])
   return baseConfiguration
 }
-
-export const selectProperty = <K extends keyof Config>(property: K) =>
-  (base: Config, extra: Partial<Config>) =>
-    extra && extra.hasOwnProperty(property) ? extra[property] : base[property]
 
 const selectEnabled = selectProperty('enabled')
 const selectTransport = selectProperty('transport')
