@@ -1,10 +1,10 @@
 
+// tslint:disable-next-line
 import * as faker from 'faker'
 import * as util from 'util'
 
 import {
   Config,
-  configure,
   create,
   LogLevel,
 } from './log'
