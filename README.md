@@ -93,6 +93,7 @@ This will now send the log message through `debug`, including the namespaces
 * [Interchangeable transports](README.md#transports)
 * [Verbosity Settings](README.md#verbosity)
 * Function-Call logging
+* [joining and splitting of transports](README.md#conditions)
 
 ### Namespaces
 
@@ -151,6 +152,43 @@ context.error('ERROR-level: 1')
 ```
 
 The verbosity is set per namespace to more easily debug problems during development.
+
+### Conditions
+
+When a project grows and it is necessary to enable new logging functions, it might be nice to have a possibility to join transports together.
+
+```typescript
+import { create, join } from '@raynode/nx-logger'
+import { transport } from '@raynode/nx-logger-debug'
+import { createTransport } from '@raynode/nx-logger-loggly'
+
+const context = create({
+  transport: join(transport, createTransport(logglyConfiguration))
+})
+
+context.log('message') // will show up in the console through debug and be transmitted to loggly via loggly-transport.
+```
+
+It might also be good to decide which messages are used in some transport
+
+```typescript
+import { create, split, LogLevel } from '@raynode/nx-logger'
+import { transport } from '@raynode/nx-logger-debug'
+import { createTransport } from '@raynode/nx-logger-loggly'
+
+const decide = (configuration, messages, verbosity) => {
+  if(verbosity > LogLevel.LOG)
+    return true // use debug
+  else
+    return false // use loggly for LOG and below
+}
+
+const context = create({
+  transport: split(decide, transport, createTransport(logglyConfiguration))
+})
+
+context.log('message') // will show up in the console through debug and be transmitted to loggly via loggly-transport.
+```
 
 ## Contributing
 
