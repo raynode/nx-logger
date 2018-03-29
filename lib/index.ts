@@ -1,6 +1,9 @@
 
 import { LogLevel } from './types'
 
+export { join } from './join'
+export { split } from './split'
+
 export * from './log'
 export * from './log.initial'
 export * from './types'

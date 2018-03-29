@@ -21,7 +21,8 @@ export enum LogLevel {
 }
 
 // define transport
-export type TransportFn = (configuration: Config, messages: Message[], verbosity: number) => void
+export type TransportHandler<T> = (configuration: Config, messages: Message[], verbosity: number) => T
+export type TransportFn = TransportHandler<void>
 
 // define config type
 export interface Config {
