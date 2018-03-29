@@ -93,7 +93,7 @@ This will now send the log message through `debug`, including the namespaces
 * [Interchangeable transports](README.md#transports)
 * [Verbosity Settings](README.md#verbosity)
 * Function-Call logging
-* [joining and splitting of transports](README.md#conditions)
+* [Joining and splitting of transports](README.md#conditions)
 
 ### Namespaces
 
@@ -187,7 +187,8 @@ const context = create({
   transport: split(decide, transport, createTransport(logglyConfiguration))
 })
 
-context.log('message') // will show up in the console through debug and be transmitted to loggly via loggly-transport.
+context.log('important') // will be transmitted to loggly via loggly-transport.
+context.info('just infos') // will show up in the console through debug
 ```
 
 ## Contributing
