@@ -4,10 +4,13 @@ import * as faker from 'faker'
 import * as util from 'util'
 
 import {
-  Config,
   create,
+} from './log.initial'
+
+import {
+  Config,
   LogLevel,
-} from './log'
+} from './types'
 
 import { debugTransport } from '../test-utils'
 

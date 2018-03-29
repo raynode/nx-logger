@@ -14,7 +14,7 @@
     "removeComments": false
   },
   "files": [
-    "lib/log.ts"
+    "lib/index.ts"
   ],
   "exclude": [
     "node_modules",
