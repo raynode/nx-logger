@@ -17,12 +17,13 @@ module.exports = {
     'ts',
     'tsx',
     'js',
-    'jsx'
+    'jsx',
   ],
   testRegex: '/lib/.*\.spec\.[tj]sx?$',
   coverageDirectory: 'coverage',
   collectCoverageFrom: [
     'lib/**/*.{ts,tsx}',
-    '!lib/**/*.{d.ts}',
+    '!lib/types.ts',
   ],
+  "coveragePathIgnorePatterns": [".*\\.d\\.ts", "<rootDir>/node_modules/"],
 }

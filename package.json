@@ -28,7 +28,7 @@
     "meta-logging"
   ],
   "license": "MIT",
-  "main": "dist/log.js",
+  "main": "dist/index.js",
   "name": "@raynode/nx-logger",
   "repository": {
     "type": "git",

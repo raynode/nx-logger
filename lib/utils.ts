@@ -3,7 +3,7 @@ import * as util from 'util'
 import {
   Config,
   Message,
-} from './types'
+} from './types'
 
 // checks if some thing is a string
 export const isString = (obj: any): obj is string => typeof obj === 'string'
