@@ -180,7 +180,7 @@ The `context.on(callback, [namespace], [configuration])` feature will enable you
 Combined with the [conditions](README.md#conditions) feature it might look like this
 
 ```typescript
-const signup = context.on((user: User) => user.authorize, 'signup-user', {
+const signup = context.on((user: User) => db.run('create', user), 'signup-user', {
   transport: join(transport, createTransport(logglyConfiguration)),
 })
 ```
