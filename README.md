@@ -89,10 +89,10 @@ This will now send the log message through `debug`, including the namespaces
 
 ## Features
 
-* Namespaces
+* [Namespaces](README.md#namespaces)
 * [Interchangeable transports](README.md#transports)
 * [Verbosity Settings](README.md#verbosity)
-* Function-Call logging
+* [Function-Call logging](README.md#functionhandlers)
 * [Joining and splitting of transports](README.md#conditions)
 
 ### Namespaces
@@ -152,6 +152,38 @@ context.error('ERROR-level: 1')
 ```
 
 The verbosity is set per namespace to more easily debug problems during development.
+
+### Functionhandlers
+
+Sometime we need to know when a specific function is called, and we write code like this:
+```typescript
+
+const myFunction = (a, b) => {
+  context.log('myFunction', [a, b])
+  // ...
+}
+
+myFunction(1, 2) // myFunction [1, 2]
+```
+
+nx-logger has a logging handler for this case:
+```typescript
+
+const myFunction = context.on((a, b) => {
+  // ...
+}, 'myFunction')
+
+myFunction(1, 2) // myFunction [1, 2]
+```
+
+The `context.on(callback, [namespace], [configuration])` feature will enable you to get information whenever the defined function is called.
+Combined with the [conditions](README.md#conditions) feature it might look like this
+
+```typescript
+const signup = context.on((user: User) => user.authorize, 'signup-user', {
+  transport: join(transport, createTransport(logglyConfiguration)),
+})
+```
 
 ### Conditions
 
