@@ -3,6 +3,7 @@ import { LogLevel } from './types'
 
 export { join } from './join'
 export { split } from './split'
+export { formatMessage } from './utils'
 
 export * from './log'
 export * from './log.initial'
