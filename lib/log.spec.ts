@@ -20,45 +20,35 @@ describe('options', () => {
 })
 
 describe('configure', () => {
+  const generateConfiguration = () => ({
+    transport: debugTransport(),
+    enabled: faker.random.boolean(),
+    verbosity: faker.random.number({ min: 1, max: 10 }),
+    namespace: [faker.random.word()],
+    tty: faker.random.boolean(),
+  })
+
+
+
   it('should set the configuration for the logger created by create', () => {
-    const transport = debugTransport()
-    const enabled = faker.random.boolean()
-    const verbosity = faker.random.number({ min: 1, max: 10 })
-    const namespace = [faker.random.word()]
-    const tty = faker.random.boolean()
-    configure({
-      enabled,
-      namespace,
-      transport,
-      tty,
-      verbosity,
-    })
+    const configuration = generateConfiguration()
+    configure(configuration)
     const log = create()
-    expect(log.configuration.transport).toEqual(transport)
-    expect(log.configuration.enabled).toEqual(enabled)
-    expect(log.configuration.verbosity).toEqual(verbosity)
-    expect(log.configuration.namespace).toEqual(namespace)
-    expect(log.configuration.tty).toEqual(tty)
+    expect(log.configuration.transport).toEqual(configuration.transport)
+    expect(log.configuration.enabled).toEqual(configuration.enabled)
+    expect(log.configuration.verbosity).toEqual(configuration.verbosity)
+    expect(log.configuration.namespace).toEqual(configuration.namespace)
+    expect(log.configuration.tty).toEqual(configuration.tty)
   })
 
   it('should be a baseline and all options should be changeable within create', () => {
-    const transport = debugTransport()
-    const enabled = faker.random.boolean()
-    const verbosity = faker.random.number({ min: 1, max: 10 })
-    const namespace = [faker.random.word()]
-    const tty = faker.random.boolean()
-    configure({
-      enabled,
-      namespace,
-      transport,
-      tty,
-      verbosity,
-    })
+    const configuration = generateConfiguration()
+    configure(configuration)
     const nextTransport = debugTransport()
-    const nextEnabled = !enabled
+    const nextEnabled = !configuration.enabled
     const nextVerbosity = 10 + faker.random.number({ min: 1, max: 10 })
     const nextNamespace = [faker.random.word()]
-    const nextTty = !tty
+    const nextTty = !configuration.tty
     const log = create({
       enabled: nextEnabled,
       namespace: nextNamespace,
@@ -70,6 +60,6 @@ describe('configure', () => {
     expect(log.configuration.enabled).toEqual(nextEnabled)
     expect(log.configuration.verbosity).toEqual(nextVerbosity)
     expect(log.configuration.tty).toEqual(nextTty)
-    expect(log.configuration.namespace).toEqual([...namespace, ...nextNamespace])
+    expect(log.configuration.namespace).toEqual([...configuration.namespace, ...nextNamespace])
   })
 })
