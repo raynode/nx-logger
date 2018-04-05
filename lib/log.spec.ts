@@ -21,14 +21,12 @@ describe('options', () => {
 
 describe('configure', () => {
   const generateConfiguration = () => ({
-    transport: debugTransport(),
     enabled: faker.random.boolean(),
-    verbosity: faker.random.number({ min: 1, max: 10 }),
     namespace: [faker.random.word()],
+    transport: debugTransport(),
     tty: faker.random.boolean(),
+    verbosity: faker.random.number({ min: 1, max: 10 }),
   })
-
-
 
   it('should set the configuration for the logger created by create', () => {
     const configuration = generateConfiguration()
