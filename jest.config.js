@@ -19,7 +19,7 @@ module.exports = {
     'js',
     'jsx',
   ],
-  testRegex: '/lib/.*\.spec\.[tj]sx?$',
+  testRegex: '/lib/.*\\.spec\\.[tj]sx?$',
   coverageDirectory: 'coverage',
   collectCoverageFrom: [
     'lib/**/*.{ts,tsx}',
