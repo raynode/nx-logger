@@ -14,11 +14,12 @@
     "faker": "^4.1.0",
     "jest": "^22.4.2",
     "jest-cli": "^22.4.2",
-    "semantic-release": "^15.0.0",
+    "semantic-release": "^15.1.5",
     "sinon": "^5.0.0",
     "ts-jest": "^22.4.0",
     "ts-node": "^5.0.1",
-    "typescript": "^2.7.2"
+    "typescript": "^2.7.2",
+    "travis-deploy-once": "^4.4.1"
   },
   "files": [
     "dist/*"
@@ -46,10 +47,11 @@
     "semantic-release": "semantic-release",
     "upload": "npm publish --access public",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
-    "posttest": "codecov -f coverage/*.json"
+    "posttest": "codecov -f coverage/*.json",
+    "travis-deploy-once": "travis-deploy-once"
   },
   "types": "dist/index.d.ts",
-  "version": "1.1.2",
+  "version": "0.0.0-development",
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
