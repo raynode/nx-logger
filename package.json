@@ -15,7 +15,7 @@
     "jest": "^23.0.1",
     "jest-cli": "^23.0.1",
     "semantic-release": "^15.1.5",
-    "sinon": "^5.0.0",
+    "sinon": "^6.0.0",
     "travis-deploy-once": "^5.0.0",
     "ts-jest": "^22.4.6",
     "ts-node": "^6.0.0",
