@@ -1,7 +1,7 @@
 
 // tslint:disable-next-line
 import * as sinon from 'sinon'
-import { nxLogger } from './lib/log'
+import * as nxLogger from './lib/types'
 
 export interface CaptureFn {
   (message: any): void
