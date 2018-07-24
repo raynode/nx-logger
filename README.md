@@ -13,7 +13,7 @@
 
 nx-logger is a logging utility that grows with the application
 
-+ [TypeScript][typescript] [2.6][typescript-26]
++ [TypeScript][typescript] [2.9][typescript-29]
 + [Jest][jest] unit testing and code coverage
 + Type definitions for Node.js v6.x (LTS) and Jest
 
@@ -245,7 +245,7 @@ MIT
 [travis-badge]: https://travis-ci.org/raynode/nx-logger.svg?branch=master
 [travis]: https://travis-ci.org/raynode/nx-logger
 [tslint]: https://palantir.github.io/tslint/
-[typescript-26]: https://github.com/Microsoft/TypeScript/wiki/What's-new-in-TypeScript#typescript-26
+[typescript-29]: https://github.com/Microsoft/TypeScript/wiki/What's-new-in-TypeScript#typescript-29
 [typescript]: https://www.typescriptlang.org/
 [typescript-badge]: https://badges.frapsoft.com/typescript/code/typescript.png?v=101
 [typescript-badge-url]: https://github.com/ellerbrock/typescript-badges/
