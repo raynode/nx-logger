@@ -50,9 +50,9 @@ const mergeConfigurations = (base: Config, extra: ChildConfiguration): Config =>
 
 const resolveConfiguration = (parent: Log, configuration: Config | ChildConfiguration): Config => {
   const parentConfiguration = parent ? parent.configuration() : getBaseConfiguration()
-  if(!configuration)
-    return parentConfiguration
-  return mergeConfigurations(parentConfiguration, configuration)
+  return !configuration
+    ? parentConfiguration
+    : mergeConfigurations(parentConfiguration, configuration)
 }
 
 const write: WriteFn = (log, verbosity) => (...messages) => {
