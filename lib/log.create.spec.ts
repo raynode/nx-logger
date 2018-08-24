@@ -113,13 +113,13 @@ describe('::create', () => {
 
 describe('default transport', () => {
   it('should write to :log when the verbosity has no special console function', done => {
-    const transport = create().configuration.transport
+    const transport = create().configuration().transport
     const msg = faker.random.word()
     capture(onLog => {
       onLog(str => {
         expect(str).toEqual(msg)
       })
-      transport(create().configuration, [msg], 2) // 2 is between 1: Error and 3: Warning
+      transport(create().configuration(), [msg], 2) // 2 is between 1: Error and 3: Warning
       expect(onLog.called).toBe(1)
       done()
     })

@@ -33,6 +33,14 @@ export interface Config {
   readonly verbosity: number
 }
 
+export interface ChildConfiguration {
+  enabled?: boolean // | (() => boolean)
+  namespace?: Namespace // | (() => Namespace)
+  transport?: TransportFn // | (() => TransportFn)
+  tty?: boolean // | (() => boolean)
+  verbosity?: number // | (() => number)
+}
+
 //
 export type ConfigureFn = (options?: Partial<Config>) => Config
 
@@ -42,7 +50,7 @@ export type HandlerFactory = (log: Log) => Handler
 
 // define log function
 export interface Log extends LoggerFn {
-  readonly configuration: Config
+  readonly configuration: () => Config
   create: SimpleFactoryFn
   on: Handler
   error: LoggerFn
@@ -50,6 +58,7 @@ export interface Log extends LoggerFn {
   log: LoggerFn
   info: LoggerFn
   debug: LoggerFn
+  update: (config: Partial<Config>) => Config
 }
 
 // simplified factory function which will be used by most people in code
@@ -60,5 +69,5 @@ export interface SimpleFactoryFn {
 
 // define Factory function types
 export type FactoryFn = (configuration: Config) => Log
-export type FactoryCreatorFn = (configuration: Config) => SimpleFactoryFn
-export type WriteFn = (configuration: Config, verbosity?: number) => LoggerFn
+export type FactoryCreatorFn = (parent: Log) => SimpleFactoryFn
+export type WriteFn = (log: Log, verbosity?: number) => LoggerFn

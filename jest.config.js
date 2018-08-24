@@ -1,7 +1,7 @@
 module.exports = {
   testEnvironment: 'node',
   transform: {
-    '.(ts|tsx)': '<rootDir>/node_modules/ts-jest/preprocessor.js',
+    '.tsx?': 'ts-jest'
   },
   clearMocks: true,
   bail: true,

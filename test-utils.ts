@@ -15,15 +15,17 @@ export interface LastEntry {
 }
 
 export interface DebugFn {
+  title?: string
   last: LastEntry
   called: number
 }
 
-export const debugTransport = (): nxLogger.TransportFn & DebugFn => {
+export const debugTransport = (title?: string): nxLogger.TransportFn & DebugFn => {
   const transport: any  = (config: nxLogger.Config, messages: nxLogger.Message[], verbosity) => {
     transport.last = { config, messages, verbosity }
     transport.called++
   }
+  transport.title = title
   transport.last = { config: null, messages: [] }
   transport.called = 0
   transport.verbosity = -1

@@ -1,6 +1,7 @@
 
 import * as util from 'util'
 import {
+  ChildConfiguration,
   Config,
   Message,
 } from './types'
@@ -26,8 +27,11 @@ export const formatMessage = (messages: Message[]): Message => {
 
 // function to select some property from a Partial configuration or selecting the one from the base
 export const selectProperty = <K extends keyof Config>(property: K) =>
-  (base: Config, extra: Partial<Config>) =>
-    extra && extra.hasOwnProperty(property) ? extra[property] : base[property]
+  (base: Config, extra: ChildConfiguration) => {
+    if(!extra || !extra.hasOwnProperty(property))
+      return base[property]
+    return extra[property]
+  }
 
 // function to merge namespaces of 2 configurations
 export const mergeNamespace = (base: Config, extra?: Partial<Config>) =>

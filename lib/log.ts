@@ -9,6 +9,7 @@ import {
 } from './utils'
 
 import {
+  ChildConfiguration,
   Config,
   FactoryCreatorFn,
   FactoryFn,
@@ -21,6 +22,10 @@ import {
   TransportFn,
   WriteFn,
 } from './types'
+
+import {
+  getBaseConfiguration,
+} from './log.initial'
 
 export const defaultLoggers = {
   [LogLevel.DEBUG]: console.debug,
@@ -35,36 +40,47 @@ const selectTransport = selectProperty('transport')
 const selectTTY = selectProperty('tty')
 const selectVerbosity = selectProperty('verbosity')
 
-const mergeConfigurations = (base: Config, extra?: Partial<Config>): Config => ({
+const mergeConfigurations = (base: Config, extra: ChildConfiguration): Config => ({
   enabled: selectEnabled(base, extra),
   namespace: mergeNamespace(base, extra),
-  transport: selectTransport(base, extra),
+  transport: (extra && extra.transport) || base.transport,
   tty: selectTTY(base, extra),
   verbosity: selectVerbosity(base, extra),
 })
 
-const write: WriteFn = (configuration, verbosity: number = LogLevel.LOG) => (...messages) =>
-  verbosity <= configuration.verbosity &&
-    configuration.transport(configuration, messages, verbosity)
+const resolveConfiguration = (parent: Log, configuration: Config | ChildConfiguration): Config => {
+  const parentConfiguration = parent ? parent.configuration() : getBaseConfiguration()
+  if(!configuration)
+    return parentConfiguration
+  return mergeConfigurations(parentConfiguration, configuration)
+}
 
-export const logFactory: FactoryFn = configuration => {
-  const log: any = write(configuration)
-  log.configuration = configuration
-  log.create = logFactoryCreator(configuration)
+const write: WriteFn = (log, verbosity) => (...messages) => {
+  const configuration = log.configuration()
+  return verbosity <= configuration.verbosity &&
+    configuration.transport(configuration, messages, verbosity)
+}
+
+export const logFactory = (configuration: Config | ChildConfiguration, parent = null) => {
+  let localConfiguration = configuration
+  const log: any = (...args) => log.log(...args)
+  log.configuration = () => resolveConfiguration(parent, localConfiguration)
+  log.create = logFactoryCreator(log)
   log.on = logHandlerFactory(log)
-  log.error = write(configuration, LogLevel.ERROR)
-  log.warn = write(configuration, LogLevel.WARN)
-  log.log = write(configuration, LogLevel.LOG)
-  log.info = write(configuration, LogLevel.INFO)
-  log.debug = write(configuration, LogLevel.DEBUG)
+  log.error = write(log, LogLevel.ERROR)
+  log.warn = write(log, LogLevel.WARN)
+  log.log = write(log, LogLevel.LOG)
+  log.info = write(log, LogLevel.INFO)
+  log.debug = write(log, LogLevel.DEBUG)
+  log.update = (config: Partial<Config>) => localConfiguration = config
   return log as Log
 }
 
-const logFactoryCreator: FactoryCreatorFn = configuration =>
+const logFactoryCreator: FactoryCreatorFn = parent =>
   (...namespace) => {
     const config = namespace[0] as Partial<Config>
-    const configs = mergeConfigurations(configuration, isString(config) ? { namespace } : config)
-    return logFactory(configs)
+    const childConfiguration = isString(config) ? { namespace } : config
+    return logFactory(childConfiguration, parent)
   }
 
 const logHandlerFactory: HandlerFactory = logger =>
