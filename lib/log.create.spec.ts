@@ -3,9 +3,9 @@
 import * as faker from 'faker'
 import * as util from 'util'
 
-import { create } from './log.initial'
+import { create, configure } from './log.initial'
 
-import { capture, CaptureFn } from '../test-utils'
+import { capture, CaptureFn, debugTransport } from '../test-utils'
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 50
 
@@ -26,6 +26,18 @@ describe('::create', () => {
       expect(onLog.called).toBe(1)
       done()
     })
+  })
+
+  it('should accept mutilple arguments and use them as namespace', () => {
+    const transport = debugTransport()
+    const namespace = [faker.random.word(), faker.random.word()]
+    configure({ transport })
+    const log = create(...namespace)
+    const msg = faker.random.words()
+    log(msg)
+    expect(transport.called).toBeTruthy()
+    expect(transport.last.messages[0]).toEqual(msg)
+    expect(transport.last.config.namespace).toEqual(namespace)
   })
 
   it('should log multiple strings', done => {
