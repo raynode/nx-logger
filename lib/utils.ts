@@ -10,7 +10,7 @@ import {
 export const isString = (obj: any): obj is string => typeof obj === 'string'
 
 // formats a string with arguments into a human readable format
-export const formatter = (format: string, args: any[]) => util.format(format, ...args)
+export const formatter = (format: Message, args: any[]) => util.format(format, ...args)
 
 // formats anything into a readable format
 export const inspect = (object: any) =>
