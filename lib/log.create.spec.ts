@@ -3,8 +3,9 @@
 import * as faker from 'faker'
 import * as util from 'util'
 
-import { configure, create } from './log.initial'
-
+import { configure, create, transport as defaultTransport } from './log.initial'
+import { defaultLoggers } from './log'
+import { LogLevel } from './types'
 import { capture, CaptureFn, debugTransport } from '../test-utils'
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 50
@@ -95,16 +96,24 @@ describe('::create', () => {
 })
 
 describe('default transport', () => {
-  it('should write to :log when the verbosity has no special console function', done => {
-    const transport = create().configuration().transport
+  it('should write to :log when the verbosity has no special console function', () => {
+    let data = null
+    defaultLoggers[LogLevel.LOG] = (...args) => data = args
     const msg = faker.random.word()
-    capture(onLog => {
-      onLog(str => {
-        expect(str).toEqual(msg)
-      })
-      transport(create().configuration(), [msg], 2) // 2 is between 1: Error and 3: Warning
-      expect(onLog.called).toBe(1)
-      done()
+    const obj = { msg: faker.random.word() }
+    const namespace = [faker.random.word()]
+    const config = create().configuration()
+    defaultTransport(config, [msg], LogLevel.LOG)
+    expect(data).not.toBeNull()
+    expect(data).toEqual([msg])
+    defaultTransport({
+      ...config,
+      namespace,
+    }, [obj], -1)
+    const objStr = util.inspect(obj, {
+      depth: 2,
+      maxArrayLength: 5,
     })
+    expect(data).toEqual([[namespace.join(':'), objStr].join(' - ')])
   })
 })

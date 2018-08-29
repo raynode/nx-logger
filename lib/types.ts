@@ -2,7 +2,7 @@
 // define atomic types
 export type Namespace = string[]
 export type MessageString = string | number
-export type MessageObject = string
+export type MessageObject = {}
 export type Message = MessageString | MessageObject
 
 // basic logger function
