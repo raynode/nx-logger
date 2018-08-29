@@ -42,4 +42,4 @@ export const configure: ConfigureFn = config => {
 }
 
 export const getBaseConfiguration = () => baseConfiguration
-export const create: SimpleFactoryFn = configuration => logFactory({}).create(configuration)
+export const create: SimpleFactoryFn = (...configuration) => logFactory({}).create(...configuration)
