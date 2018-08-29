@@ -3,7 +3,7 @@
 import * as faker from 'faker'
 import * as util from 'util'
 
-import { create, configure } from './log.initial'
+import { configure, create } from './log.initial'
 
 import { capture, CaptureFn, debugTransport } from '../test-utils'
 
@@ -13,19 +13,17 @@ const expectOnLog = (onLog: CaptureFn, msg: string) =>
   onLog((str: string) => expect(str).toEqual(msg))
 
 describe('::create', () => {
-  it('should log a simple string', done => {
+  it('should log a simple string', () => {
+    const transport = debugTransport()
+    configure({ transport })
     const fakes = {
       logger: faker.lorem.word(),
       message: faker.lorem.word(),
     }
     const log = create(fakes.logger)
-    capture(onLog => {
-      expectOnLog(onLog, [fakes.logger, ' - ', fakes.message].join(''))
-      log(fakes.message)
-      expect(onLog.called).not.toBe(0)
-      expect(onLog.called).toBe(1)
-      done()
-    })
+    log(fakes.message)
+    expect(transport.called).toBeTruthy()
+    expect(transport.last.messages[0]).toEqual(fakes.message)
   })
 
   it('should accept mutilple arguments and use them as namespace', () => {
@@ -40,23 +38,23 @@ describe('::create', () => {
     expect(transport.last.config.namespace).toEqual(namespace)
   })
 
-  it('should log multiple strings', done => {
+  it('should log multiple strings', () => {
+    const transport = debugTransport()
+    configure({ transport })
     const fakes = {
       logger: faker.lorem.word(),
       messages: [1, 2, 3, 4].map(faker.lorem.word),
     }
     const log = create(fakes.logger)
-    capture(onLog => {
-      const message = fakes.messages.join(' ')
-      expectOnLog(onLog, [fakes.logger, ' - ', message].join(''))
-      const [format, ...messages] = fakes.messages
-      log(format, ...messages)
-      expect(onLog.called).toBe(1)
-      done()
-    })
+    const [format, ...messages] = fakes.messages
+    log(format, ...messages)
+    expect(transport.called).toBeTruthy()
+    expect(transport.last.messages).toEqual(fakes.messages)
   })
 
-  it('should log objects', done => {
+  it('should log objects', () => {
+    const transport = debugTransport()
+    configure({ transport })
     const fakes = {
       logger: faker.lorem.word(),
       obj: {
@@ -64,62 +62,35 @@ describe('::create', () => {
       },
     }
     const log = create(fakes.logger)
-    capture(onLog => {
-      const message = util.inspect(fakes.obj)
-      expectOnLog(onLog, [fakes.logger, ' - ', message].join(''))
-      log(fakes.obj)
-      expect(onLog.called).toBe(1)
-      done()
-    })
+    log(fakes.obj)
+    expect(transport.called).toBeTruthy()
+    expect(transport.last.messages[0]).toEqual(fakes.obj)
   })
 
-  it('should format strings', done => {
-    const fakes = {
-      formatter: 'message(%d, %s, %d)',
-      logger: faker.lorem.word(),
-      parts: [1, 'test', 2],
-    }
-    const obj = {
-      logger: faker.lorem.word(),
-      test: faker.lorem.word(),
-    }
-    const log = create(fakes.logger)
-    capture(onLog => {
-      const message = `message(${fakes.parts[0]}, ${fakes.parts[1]}, ${fakes.parts[2]})`
-      expectOnLog(onLog, [fakes.logger, ' - ', message].join(''))
-      log(fakes.formatter, ...fakes.parts)
-      expect(onLog.called).toBe(1)
-      done()
-    })
-  })
-
-  it('should create a new logger without any parameters', done => {
+  it('should create a new logger without any parameters', () => {
+    const transport = debugTransport()
+    configure({ transport })
     const fakes = {
       logger: faker.lorem.word(),
       message: faker.lorem.word(),
     }
     const logSource = create(fakes.logger)
     const log = logSource.create()
-    capture(onLog => {
-      expectOnLog(onLog, [fakes.logger, ' - ', fakes.message].join(''))
-      log(fakes.message)
-      expect(onLog.called).not.toBe(0)
-      expect(onLog.called).toBe(1)
-      done()
-    })
+    log(fakes.message)
+    expect(transport.called).toBeTruthy()
+    expect(transport.last.config.namespace).toEqual([fakes.logger])
+    expect(transport.last.messages).toEqual([fakes.message])
   })
 
-  it('should send the message without a namespace when non is given', done => {
+  it('should send the message without a namespace when non is given', () => {
+    const transport = debugTransport()
+    configure({ transport })
     const log = create()
     const msg = faker.random.word()
-    capture(onLog => {
-      onLog(str => {
-        expect(str).toEqual(msg)
-      })
-      log(msg)
-      expect(onLog.called).toBe(1)
-      done()
-    })
+    log(msg)
+    expect(transport.called).toBeTruthy()
+    expect(transport.last.config.namespace).toEqual([])
+    expect(transport.last.messages[0]).toEqual(msg)
   })
 })
 

@@ -1,7 +1,7 @@
 
 // define atomic types
 export type Namespace = string[]
-export type MessageString = string
+export type MessageString = string | number
 export type MessageObject = string
 export type Message = MessageString | MessageObject
 
