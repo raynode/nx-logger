@@ -98,7 +98,7 @@ describe('::create', () => {
 describe('default transport', () => {
   it('should write to :log when the verbosity has no special console function', () => {
     let data = null
-    defaultLoggers[LogLevel.LOG] = (...args) => data = args
+    defaultLoggers[LogLevel.LOG] = (...args: any[]) => data = args
     const msg = faker.random.word()
     const obj = { msg: faker.random.word() }
     const namespace = [faker.random.word()]

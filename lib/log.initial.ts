@@ -21,7 +21,8 @@ export const transport: TransportFn = (config, messages, verbosity) => {
   const message = formatMessage(messages)
   const msg = namespace ? `${namespace} - ${message}` : `${message}`
 
-  const log = defaultLoggers[verbosity] || defaultLoggers[LogLevel.LOG]
+  const log: (msg: string) => void =
+    ((defaultLoggers as any)[verbosity] as any) || ((defaultLoggers as any)[LogLevel.LOG] as any)
   log(msg)
 }
 
@@ -37,9 +38,9 @@ const baseConfiguration: Config = {
 export const configure: ConfigureFn = config => {
   if(config)
     Object.keys(config)
-      .forEach(property => baseConfiguration[property] = config[property])
+      .forEach(<Key extends keyof Config>(property: Key) => baseConfiguration[property] = config[property])
   return baseConfiguration
 }
 
 export const getBaseConfiguration = () => baseConfiguration
-export const create: SimpleFactoryFn = (...configuration) => logFactory({}).create(...configuration)
+export const create: SimpleFactoryFn = (...configuration: any[]) => logFactory({}).create(...configuration)

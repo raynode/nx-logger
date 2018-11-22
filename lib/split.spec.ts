@@ -4,16 +4,17 @@ import * as faker from 'faker'
 
 import { configure } from './log.initial'
 import { split } from './split'
+import { TransportHandler } from './types'
 
 describe('transport conditional splitting', () => {
   it('should work randomly', () => {
     const configuration = configure()
-    const calls = []
-    const t1 = (...args) => calls.push({ name: 't1', args })
-    const t2 = (...args) => calls.push({ name: 't2', args })
+    const calls: Array<{ name: string, args: any[] }> = []
+    const t1 = (...args: any[]) => calls.push({ name: 't1', args })
+    const t2 = (...args: any[]) => calls.push({ name: 't2', args })
     const res = faker.random.boolean()
     const msg = faker.random.words().split(' ')
-    const condition = (config, messages, verbosity) => {
+    const condition: TransportHandler<boolean> = (config, messages, verbosity) => {
       expect(config).toBe(configuration)
       expect(messages).toBe(msg)
       expect(verbosity).toBe(5)

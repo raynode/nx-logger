@@ -55,15 +55,15 @@ const resolveConfiguration = (parent: Log, configuration: Config | ChildConfigur
     : mergeConfigurations(parentConfiguration, configuration)
 }
 
-const write: WriteFn = (log, verbosity) => (...messages) => {
+const write: WriteFn = (log, verbosity) => (...messages: any[]) => {
   const configuration = log.configuration()
   return verbosity <= configuration.verbosity &&
     configuration.transport(configuration, messages, verbosity)
 }
 
-export const logFactory = (configuration: Config | ChildConfiguration, parent = null) => {
+export const logFactory = (configuration: Config | ChildConfiguration, parent: Log = null) => {
   let localConfiguration = configuration
-  const log: any = (...args) => log.log(...args)
+  const log: any = (...args: any[]) => log.log(...args)
   log.configuration = () => resolveConfiguration(parent, localConfiguration)
   log.create = logFactoryCreator(log)
   log.on = logHandlerFactory(log)
@@ -77,7 +77,7 @@ export const logFactory = (configuration: Config | ChildConfiguration, parent = 
 }
 
 const logFactoryCreator: FactoryCreatorFn = parent =>
-  (...namespace) => {
+  (...namespace: any[]) => {
     const config = namespace[0] as Partial<Config>
     const childConfiguration = isString(config) ? { namespace } : config
     return logFactory(childConfiguration, parent)

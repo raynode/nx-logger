@@ -8,9 +8,9 @@ import { configure } from './log.initial'
 describe('transport joining', () => {
   it('should call each transport with the given parameters', () => {
     const configuration = configure()
-    const calls = []
-    const t1 = (...args) => calls.push({ name: 't1', args })
-    const t2 = (...args) => calls.push({ name: 't2', args })
+    const calls: Array<{ name: string, args: any[] }> = []
+    const t1 = (...args: any[]) => calls.push({ name: 't1', args })
+    const t2 = (...args: any[]) => calls.push({ name: 't2', args })
     const transport = join(t1, t2)
     const msg = faker.random.words().split(' ')
     transport(configuration, msg, 5)

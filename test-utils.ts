@@ -21,7 +21,7 @@ export interface DebugFn {
 }
 
 export const debugTransport = (title?: string): nxLogger.TransportFn & DebugFn => {
-  const transport: any  = (config: nxLogger.Config, messages: nxLogger.Message[], verbosity) => {
+  const transport: any  = (config: nxLogger.Config, messages: nxLogger.Message[], verbosity: number) => {
     transport.last = { config, messages, verbosity }
     transport.called++
   }
@@ -35,7 +35,7 @@ export const debugTransport = (title?: string): nxLogger.TransportFn & DebugFn =
 export const capture = (callback: (onLog: CaptureFn) => void) => {
   const log = sinon.stub(console, 'log')
   let err
-  const setFake: any = fn => {
+  const setFake: any = (fn: any) => {
     setFake.called++
     log.callsFake(fn)
   }
