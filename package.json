@@ -4,7 +4,7 @@
   "description": "Logging utility that grows with the application",
   "devDependencies": {
     "@types/faker": "^4.1.4",
-    "@types/jest": "^23.3.9",
+    "@types/jest": "^24.0.9",
     "@types/node": "^11.9.5",
     "@types/sinon": "^7.0.2",
     "codecov": "^3.1.0",
