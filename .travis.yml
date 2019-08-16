@@ -5,7 +5,6 @@ cache:
 notifications:
   email: travisci+nx-logger@raynode.de
 node_js:
-  - '9'
   - '10'
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
