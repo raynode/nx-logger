@@ -37,8 +37,7 @@ const baseConfiguration: Config = {
 
 export const configure: ConfigureFn = config => {
   if(config)
-    Object.keys(config)
-      .forEach(<Key extends keyof Config>(property: Key) => baseConfiguration[property] = config[property])
+    Object.assign(baseConfiguration, config)
   return baseConfiguration
 }
 
