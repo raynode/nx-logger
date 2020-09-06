@@ -3,7 +3,7 @@
   "dependencies": {},
   "description": "Logging utility that grows with the application",
   "devDependencies": {
-    "@types/faker": "^4.1.5",
+    "@types/faker": "^5.1.0",
     "@types/jest": "^26.0.0",
     "@types/node": "^12.7.2",
     "@types/sinon": "^9.0.0",
