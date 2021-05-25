@@ -13,7 +13,7 @@
     "cz-conventional-changelog": "^3.0.2",
     "faker": "^5.0.0",
     "jest": "^25.1.0",
-    "jest-cli": "^26.0.0",
+    "jest-cli": "^27.0.0",
     "semantic-release": "^17.0.1",
     "sinon": "^11.0.0",
     "travis-deploy-once": "^5.0.11",
